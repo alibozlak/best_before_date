@@ -6,6 +6,7 @@ import dev.bozlak.bbd.repository.UserRepository;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,10 +15,13 @@ public class FirstUserService implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void add(AddUserRequestDto addUserRequestDto) {
         User user = this.userMapper.toEntity(addUserRequestDto);
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(hashedPassword);
         this.userRepository.save(user);
     }
 }

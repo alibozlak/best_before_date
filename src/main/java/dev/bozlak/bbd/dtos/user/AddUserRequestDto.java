@@ -12,5 +12,5 @@ public class AddUserRequestDto extends Dto {
 
     private String password;
 
-    private Integer storeId = 1;
+    private Integer storeId;
 }
