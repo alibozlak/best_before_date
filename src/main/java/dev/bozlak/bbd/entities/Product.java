@@ -27,7 +27,7 @@ public class Product extends dev.bozlak.core.entity.Entity {
 
     private BigDecimal price;
 
-    private Byte tax;
+    private Short tax;
 
 
     //--------------Setters-------------
