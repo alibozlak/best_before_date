@@ -24,4 +24,9 @@ public class FirstUserService implements UserService {
         user.setPassword(hashedPassword);
         this.userRepository.save(user);
     }
+
+    @Override
+    public boolean doesExistUserIdGivenNumber(Integer userId) {
+        return this.userRepository.existsById(userId);
+    }
 }

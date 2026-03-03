@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,8 @@ import java.time.LocalDate;
 @Table(name = "bbd_list")
 @Getter
 @Setter
-public class BbdList extends dev.bozlak.core.entity.Entity {
+@AllArgsConstructor
+public class BbdRecord extends dev.bozlak.core.entity.Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

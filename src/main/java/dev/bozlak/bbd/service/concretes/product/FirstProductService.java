@@ -20,4 +20,9 @@ public class FirstProductService implements ProductService {
         Product product = this.productMapper.toProduct(addProductRequestDto);
         this.productRepository.save(product);
     }
+
+    @Override
+    public boolean doesExistProductIdGivenNumber(Integer productId) {
+        return this.productRepository.existsById(productId);
+    }
 }
