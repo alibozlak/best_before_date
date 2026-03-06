@@ -4,7 +4,7 @@ import dev.bozlak.bbd.dtos.auth.AuthResponseDto;
 import dev.bozlak.bbd.dtos.user.LoginRequestDto;
 import dev.bozlak.bbd.service.abstracts.AuthService;
 import dev.bozlak.bbd.utilities.security.CustomUserDetailsService;
-import dev.bozlak.bbd.utilities.security.JwtService;
+import dev.bozlak.bbd.utilities.security.FirstJwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +17,7 @@ public class FirstAuthService implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtService jwtService;
+    private final FirstJwtService firstJwtService;
 
     @Override
     public AuthResponseDto login(LoginRequestDto loginRequestDto){
@@ -28,7 +28,7 @@ public class FirstAuthService implements AuthService {
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(userName);
 
-        String jwtToken = this.jwtService.generateToken(userDetails);
+        String jwtToken = this.firstJwtService.generateToken(userDetails);
 
         return AuthResponseDto.builder()
                 .accessToken(jwtToken)
