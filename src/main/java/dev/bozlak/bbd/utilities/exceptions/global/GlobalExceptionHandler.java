@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.exceptions.global;
+package dev.bozlak.bbd.utilities.exceptions.global;
 
 import dev.bozlak.core.responses.ResponseBodyWithMessage;
 import org.springframework.http.HttpStatus;

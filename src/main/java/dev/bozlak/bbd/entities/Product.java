@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.entities;
 
-import dev.bozlak.bbd.exceptions.products.ProductHasSevenDigitsException;
+import dev.bozlak.bbd.utilities.exceptions.products.ProductHasSevenDigitsException;
 import dev.bozlak.bbd.utilities.ProductUtility;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

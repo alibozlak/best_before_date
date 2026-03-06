@@ -28,6 +28,10 @@ public class FirstBbdRecordService implements BbdRecordService {
 
         BbdRecord bbdRecord =
                 this.bbdRecordMapper.fromAddBbdRecordRequestDtoToBbdRecordEntity(addBbdRecordRequestDto);
+        //System.out.println("bbdRecord.getUser().getUserName() = " + bbdRecord.getUser().getUserName());
+        //bbdRecord.getUser().getUserName() = null
+        //System.out.println(bbdRecord.getProduct().getProductName());
+        //null
         this.bbdRecordRepository.save(bbdRecord);
     }
 
