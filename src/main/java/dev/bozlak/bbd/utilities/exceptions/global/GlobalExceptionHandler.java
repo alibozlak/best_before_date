@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.utilities.exceptions.global;
 
+import dev.bozlak.bbd.utilities.exceptions.user.UserNotFoundException;
 import dev.bozlak.core.responses.ResponseBodyWithMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,13 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage).collect(Collectors.joining(", "));
 
         return new ResponseEntity<>(new ResponseBodyWithMessage(false, errorMessage), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ResponseBodyWithMessage> handleUserNotFoundException(UserNotFoundException e){
+        return new ResponseEntity<>(
+                new ResponseBodyWithMessage(false, e.getMessage()), HttpStatus.BAD_REQUEST
+        );
     }
 
     @ExceptionHandler(Exception.class)

@@ -27,4 +27,7 @@ public class User extends dev.bozlak.core.entity.Entity {
     @JoinColumn(name = "store_id")
     @ManyToOne
     private Store store;
+
+    @Column(nullable = false)
+    private Boolean isAdmin;
 }

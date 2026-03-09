@@ -8,6 +8,7 @@ import dev.bozlak.bbd.utilities.security.FirstJwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class FirstAuthService implements AuthService {
 
         return AuthResponseDto.builder()
                 .accessToken(jwtToken)
+                .isUserAdmin(userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
                 .message("Login Succeed :)")
                 .build();
     }

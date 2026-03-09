@@ -4,6 +4,7 @@ import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.UserRepository;
 import dev.bozlak.bbd.service.abstracts.UserService;
+import dev.bozlak.bbd.utilities.exceptions.user.UserNotFoundException;
 import dev.bozlak.bbd.utilities.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,5 +29,14 @@ public class FirstUserService implements UserService {
     @Override
     public boolean doesExistUserIdGivenNumber(Integer userId) {
         return this.userRepository.existsById(userId);
+    }
+
+    @Override
+    public void deleteUserById(Integer id) {
+        if (this.doesExistUserIdGivenNumber(id)){
+            this.userRepository.deleteById(id);
+        } else {
+            throw new UserNotFoundException(id);
+        }
     }
 }

@@ -11,5 +11,6 @@ import lombok.*;
 public class AuthResponseDto extends Dto {
 
     private String accessToken;
+    private Boolean isUserAdmin;
     private String message;
 }

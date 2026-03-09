@@ -92,7 +92,12 @@ public class FirstBbdRecordServiceTest {
         when(userService.doesExistUserIdGivenNumber(1)).thenReturn(true);
         BbdRecord bbdRecord = new BbdRecord(
                 null,
-                new User(1, "bozlak", "bozlak123", new Store(1, "Mevlana-Bornova","D377")),
+                new User(1,
+                        "bozlak",
+                        "bozlak123",
+                        new Store(1, "Mevlana-Bornova","D377"),
+                        true
+                ),
                 new Product(1, "Mantar 400 g", "1000206", (short)2, BigDecimal.valueOf(69.00), (short)1),
                 localDate,
                 (short)4

@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.utilities.exceptions.products;
+package dev.bozlak.bbd.utilities.exceptions.product;
 
 public class ProductHasSevenDigitsException extends RuntimeException {
 
