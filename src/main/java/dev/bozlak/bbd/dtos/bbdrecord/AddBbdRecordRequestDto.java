@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,4 +31,8 @@ public class AddBbdRecordRequestDto extends Dto {
     @NotNull
     @Min(value = 0)
     private Short quantity;
+
+    @NotNull
+    @Min(value = 0)
+    private Byte activityTypeId;
 }

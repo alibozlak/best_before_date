@@ -8,4 +8,5 @@ public interface UserService {
     boolean doesExistUserIdGivenNumber(Integer userId);
     void deleteUserById(Integer id);
     Integer getUserIdByUsername(String username);
+    Integer getStoreIdByUserId(Integer userId);
 }

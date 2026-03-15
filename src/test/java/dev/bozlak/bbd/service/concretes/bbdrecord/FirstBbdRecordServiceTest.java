@@ -7,6 +7,7 @@ import dev.bozlak.bbd.entities.Store;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.BbdRecordRepository;
 import dev.bozlak.bbd.service.abstracts.ProductService;
+import dev.bozlak.bbd.service.abstracts.UserActivityService;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.mappers.BbdRecordMapper;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,9 @@ public class FirstBbdRecordServiceTest {
 
     @Mock
     private ProductService productService;
+
+    @Mock
+    private UserActivityService userActivityService;
 
     @InjectMocks
     private FirstBbdRecordService firstBbdRecordService;
@@ -87,7 +91,7 @@ public class FirstBbdRecordServiceTest {
     void add_addBbdRecordDtosAllFieldsCorrect_shouldCallBbdRepositoryOnce(){
         LocalDate localDate = LocalDate.of(2026,3,12);
         AddBbdRecordRequestDto addBbdRecordRequestDto =
-                new AddBbdRecordRequestDto(1,1,localDate,(short)4);
+                new AddBbdRecordRequestDto(1,1,localDate,(short)4, (byte)1);
         when(productService.doesExistProductIdGivenNumber(1)).thenReturn(true);
         when(userService.doesExistUserIdGivenNumber(1)).thenReturn(true);
         BbdRecord bbdRecord = new BbdRecord(

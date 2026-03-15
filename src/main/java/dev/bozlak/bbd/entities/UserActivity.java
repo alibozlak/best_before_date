@@ -34,6 +34,9 @@ public class UserActivity extends dev.bozlak.core.entity.Entity {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    /**
+     * Count of Activity Type
+     */
     @Column(nullable = false)
     private Short quantity;
 

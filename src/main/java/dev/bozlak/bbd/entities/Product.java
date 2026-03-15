@@ -33,6 +33,12 @@ public class Product extends dev.bozlak.core.entity.Entity {
 
     private Short tax;
 
+    //--------------Constructors-------------
+
+    public Product(Integer productId){
+        this.setId(productId);
+    }
+
 
     //--------------Setters-------------
 

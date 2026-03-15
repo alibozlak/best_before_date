@@ -30,4 +30,10 @@ public class User extends dev.bozlak.core.entity.Entity {
 
     @Column(nullable = false)
     private Boolean isAdmin;
+
+    //--------------Constructors-------------
+
+    public User(Integer userId) {
+        this.setId(userId);
+    }
 }

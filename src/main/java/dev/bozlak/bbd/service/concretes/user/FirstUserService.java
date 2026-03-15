@@ -47,4 +47,9 @@ public class FirstUserService implements UserService {
     public Integer getUserIdByUsername(String username) {
         return this.userRepository.findUserIdByUsername(username);
     }
+
+    @Override
+    public Integer getStoreIdByUserId(Integer userId) {
+        return this.userRepository.findStoreIdByUserId(userId);
+    }
 }

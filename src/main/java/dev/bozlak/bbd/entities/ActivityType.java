@@ -19,4 +19,8 @@ public class ActivityType extends dev.bozlak.core.entity.Entity {
     private Byte id;
 
     private String activityType;
+
+    public ActivityType(Byte activityTypeId){
+        this.setId(activityTypeId);
+    }
 }

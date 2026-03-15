@@ -17,7 +17,7 @@ public class BbdRecordMapperTest {
     void fromAddBbdRecordRequestDtoToBbdRecordEntity_isSuccess(){
         LocalDate localDate = LocalDate.of(2026,3,8);
         AddBbdRecordRequestDto addBbdRecordRequestDto
-                = new AddBbdRecordRequestDto(1, 1, localDate, (short)4);
+                = new AddBbdRecordRequestDto(1, 1, localDate, (short)4, (byte)1);
 
         BbdRecord bbdRecord = bbdRecordMapper.fromAddBbdRecordRequestDtoToBbdRecordEntity(addBbdRecordRequestDto);
 
