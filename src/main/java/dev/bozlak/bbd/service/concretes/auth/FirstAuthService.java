@@ -2,7 +2,9 @@ package dev.bozlak.bbd.service.concretes.auth;
 
 import dev.bozlak.bbd.dtos.auth.AuthResponseDto;
 import dev.bozlak.bbd.dtos.user.LoginRequestDto;
+import dev.bozlak.bbd.service.abstracts.ActivityTypeService;
 import dev.bozlak.bbd.service.abstracts.AuthService;
+import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.security.CustomUserDetailsService;
 import dev.bozlak.bbd.utilities.security.FirstJwtService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,8 @@ public class FirstAuthService implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
     private final FirstJwtService firstJwtService;
+    private final UserService userService;
+    private final ActivityTypeService activityTypeService;
 
     @Override
     public AuthResponseDto login(LoginRequestDto loginRequestDto){
@@ -31,10 +35,13 @@ public class FirstAuthService implements AuthService {
 
         String jwtToken = this.firstJwtService.generateToken(userDetails);
 
+        Integer userId = this.userService.getUserIdByUsername(userName);
+
         return AuthResponseDto.builder()
                 .accessToken(jwtToken)
                 .isUserAdmin(userDetails.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
-                .message("Login Succeed :)")
+                .userId(userId)
+                .activityTypes(this.activityTypeService.getAllActivityType())
                 .build();
     }
 }

@@ -7,4 +7,5 @@ public interface UserService {
     void add(AddUserRequestDto addUserRequestDto);
     boolean doesExistUserIdGivenNumber(Integer userId);
     void deleteUserById(Integer id);
+    Integer getUserIdByUsername(String username);
 }
