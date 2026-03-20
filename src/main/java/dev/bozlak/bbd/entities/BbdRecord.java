@@ -25,6 +25,9 @@ public class BbdRecord extends dev.bozlak.core.entity.Entity {
     @ManyToOne
     private User user;
 
+    @Column(nullable = false)
+    private Integer storeId;
+
     //@Column(nullable = false)
     @JoinColumn(name = "product_id", nullable = false)
     @ManyToOne

@@ -1,7 +1,7 @@
 package dev.bozlak.bbd.api;
 
-import dev.bozlak.bbd.dtos.product.AddProductRequestDto;
-import dev.bozlak.bbd.dtos.product.ProductIdNameCodeAndPriceResponseDto;
+import dev.bozlak.bbd.dtos.product.requests.AddProductRequestDto;
+import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto;
 import dev.bozlak.bbd.service.abstracts.ProductService;
 import dev.bozlak.core.responses.ResponseBody;
 import dev.bozlak.core.responses.ResponseBodyWithObject;

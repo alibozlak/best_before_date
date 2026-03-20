@@ -1,7 +1,7 @@
 package dev.bozlak.bbd.service.concretes.product;
 
-import dev.bozlak.bbd.dtos.product.AddProductRequestDto;
-import dev.bozlak.bbd.dtos.product.ProductIdNameCodeAndPriceResponseDto;
+import dev.bozlak.bbd.dtos.product.requests.AddProductRequestDto;
+import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto;
 import dev.bozlak.bbd.entities.Product;
 import dev.bozlak.bbd.repository.ProductRepository;
 import dev.bozlak.bbd.service.abstracts.ProductService;

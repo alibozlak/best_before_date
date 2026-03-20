@@ -33,18 +33,9 @@ public class Product extends dev.bozlak.core.entity.Entity {
 
     private Short tax;
 
-    //--------------Constructors-------------
+    //--------------Constructor(s)-------------
 
     public Product(Integer productId){
         this.setId(productId);
-    }
-
-
-    //--------------Setters-------------
-
-    public void setProductCode(String productCode) {
-        if (!ProductUtility.hasProductCodeSevenDigits(productCode))
-            throw new ProductHasSevenDigitsException();
-        this.productCode = productCode;
     }
 }

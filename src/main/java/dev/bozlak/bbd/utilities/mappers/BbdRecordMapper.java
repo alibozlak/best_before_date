@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.utilities.mappers;
 
-import dev.bozlak.bbd.dtos.bbdrecord.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
 import dev.bozlak.bbd.entities.BbdRecord;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

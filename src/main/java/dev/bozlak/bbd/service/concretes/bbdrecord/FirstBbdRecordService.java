@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.service.concretes.bbdrecord;
 
-import dev.bozlak.bbd.dtos.bbdrecord.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
 import dev.bozlak.bbd.entities.*;
 import dev.bozlak.bbd.repository.BbdRecordRepository;
 import dev.bozlak.bbd.service.abstracts.BbdRecordService;
@@ -10,6 +10,7 @@ import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.mappers.BbdRecordMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,7 @@ public class FirstBbdRecordService implements BbdRecordService {
     private final UserActivityService userActivityService;
 
     @Override
+    @Transactional
     public void add(AddBbdRecordRequestDto addBbdRecordRequestDto) {
         if (!doesExistProductIdGivenNumber(addBbdRecordRequestDto.getProductId()))
             throw new RuntimeException("Doesn't exist record in products table given number for product id!!");
@@ -36,11 +38,13 @@ public class FirstBbdRecordService implements BbdRecordService {
         //bbdRecord.getUser().getUserName() = null
         //System.out.println(bbdRecord.getProduct().getProductName());
         //null
+        Integer storeId = this.userService.getStoreIdByUserId(addBbdRecordRequestDto.getUserId());
+        bbdRecord.setStoreId(storeId);
         this.bbdRecordRepository.save(bbdRecord);
 
         UserActivity userActivity = new UserActivity();
         userActivity.setUser(new User(addBbdRecordRequestDto.getUserId()));
-        userActivity.setStoreId(this.userService.getStoreIdByUserId(addBbdRecordRequestDto.getUserId()));
+        userActivity.setStoreId(storeId);
         userActivity.setAddedDateTime(LocalDateTime.now());
         userActivity.setProduct(new Product(addBbdRecordRequestDto.getProductId()));
         userActivity.setQuantity(addBbdRecordRequestDto.getQuantity());

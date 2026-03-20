@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.dtos.bbdrecord;
+package dev.bozlak.bbd.dtos.bbdrecord.requests;
 
 import dev.bozlak.core.entity.Dto;
 import jakarta.validation.constraints.Min;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter

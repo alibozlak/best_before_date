@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.service.abstracts;
 
-import dev.bozlak.bbd.dtos.bbdrecord.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
 
 public interface BbdRecordService {
 

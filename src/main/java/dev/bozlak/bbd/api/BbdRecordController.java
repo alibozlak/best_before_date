@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.api;
 
-import dev.bozlak.bbd.dtos.bbdrecord.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
 import dev.bozlak.bbd.service.abstracts.BbdRecordService;
 import dev.bozlak.core.responses.ResponseBody;
 import jakarta.validation.Valid;

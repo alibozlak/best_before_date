@@ -3,6 +3,7 @@ package dev.bozlak.bbd.api;
 import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.core.responses.ResponseBody;
+import dev.bozlak.core.responses.ResponseBodyWithObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,5 +24,10 @@ public class UserController {
     public ResponseBody addUser(@RequestBody @Valid AddUserRequestDto addUserRequestDto){
         this.userService.add(addUserRequestDto);
         return new ResponseBody(true);
+    }
+
+    @PostMapping("/get-store-id-by-user-id")
+    public ResponseBodyWithObject<Integer> getStoreIdByUserId(@RequestBody Integer userId){
+        return new ResponseBodyWithObject<>(this.userService.getStoreIdByUserId(userId));
     }
 }

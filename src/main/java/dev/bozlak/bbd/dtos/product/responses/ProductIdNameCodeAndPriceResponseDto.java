@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.dtos.product;
+package dev.bozlak.bbd.dtos.product.responses;
 
 import dev.bozlak.core.entity.Dto;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.dtos.product;
+package dev.bozlak.bbd.dtos.product.requests;
 
 import dev.bozlak.core.entity.Dto;
 import jakarta.validation.constraints.*;

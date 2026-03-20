@@ -18,6 +18,7 @@ public class ActivityType extends dev.bozlak.core.entity.Entity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Byte id;
 
+    @Column(unique = true, nullable = false)
     private String activityType;
 
     public ActivityType(Byte activityTypeId){

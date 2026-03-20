@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.service.concretes.bbdrecord;
 
-import dev.bozlak.bbd.dtos.bbdrecord.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
 import dev.bozlak.bbd.entities.BbdRecord;
 import dev.bozlak.bbd.entities.Product;
 import dev.bozlak.bbd.entities.Store;
@@ -102,6 +102,7 @@ public class FirstBbdRecordServiceTest {
                         new Store(1, "Mevlana-Bornova","D377"),
                         true
                 ),
+                1,
                 new Product(1, "Mantar 400 g", "1000206", (short)2, BigDecimal.valueOf(69.00), (short)1),
                 localDate,
                 (short)4
