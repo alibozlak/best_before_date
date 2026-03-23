@@ -1,14 +1,12 @@
 package dev.bozlak.bbd.utilities.security;
 
 import dev.bozlak.bbd.entities.User;
-import dev.bozlak.bbd.repository.UserRepository;
+import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor

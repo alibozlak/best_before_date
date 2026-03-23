@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    @Query("SELECT new dev.bozlak.bbd.dtos.product.responsedtos.ProductIdNameCodeAndPriceResponseDto(" +
+    @Query("SELECT new dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto(" +
             "p.id, " +
             "p.productName, " +
             "p.productCode, " +

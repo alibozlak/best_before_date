@@ -1,6 +1,6 @@
 package dev.bozlak.bbd.service.concretes.user;
 
-import dev.bozlak.bbd.repository.UserRepository;
+import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.utilities.exceptions.user.UserNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

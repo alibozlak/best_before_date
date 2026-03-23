@@ -3,7 +3,7 @@ package dev.bozlak.bbd.service.concretes.user;
 import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
 import dev.bozlak.bbd.entities.Store;
 import dev.bozlak.bbd.entities.User;
-import dev.bozlak.bbd.repository.UserRepository;
+import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.ProjectConstants;
 import dev.bozlak.bbd.utilities.exceptions.user.UserNotFoundException;
@@ -26,7 +26,7 @@ public class FirstUserService implements UserService {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         user.setStore(new Store(ProjectConstants.MEVLANA_STORE_ID, null,null));
-        this.userRepository.save(user);
+        this.userRepository.add(user);
     }
 
     @Override
