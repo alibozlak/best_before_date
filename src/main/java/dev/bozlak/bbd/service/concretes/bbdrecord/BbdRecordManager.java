@@ -46,7 +46,9 @@ public class BbdRecordManager implements BbdRecordService {
         userActivity.setUser(new User(addBbdRecordRequestDto.getUserId()));
         userActivity.setStoreId(storeId);
         userActivity.setAddedDateTime(LocalDateTime.now());
-        userActivity.setProduct(new Product(addBbdRecordRequestDto.getProductId()));
+        userActivity.setProduct(new dev.bozlak.bbd.repository.implementations.jpa.entities.Product(
+                addBbdRecordRequestDto.getProductId())
+        );
         userActivity.setQuantity(addBbdRecordRequestDto.getQuantity());
         userActivity.setActivityType(new ActivityType(addBbdRecordRequestDto.getActivityTypeId()));
         this.userActivityService.add(userActivity);

@@ -1,7 +1,5 @@
-package dev.bozlak.bbd.entities;
+package dev.bozlak.bbd.repository.implementations.jpa.entities;
 
-import dev.bozlak.bbd.utilities.exceptions.product.ProductHasSevenDigitsException;
-import dev.bozlak.bbd.utilities.ProductUtility;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product extends dev.bozlak.core.entity.Entity {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

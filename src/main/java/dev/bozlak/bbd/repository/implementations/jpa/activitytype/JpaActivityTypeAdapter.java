@@ -21,11 +21,9 @@ public class JpaActivityTypeAdapter implements ActivityTypeRepository {
 
         List<ActivityType> activityTypes = new ArrayList<>(activityTypesForJpa.size());
 
-        activityTypesForJpa.forEach(activityType -> {
-            activityTypes.add(
-                    this.activityTypeMapperForJpa.fromJpaActivityTypeEntityToCoreActivityTypeEntity(activityType)
-            );
-        });
+        activityTypesForJpa.forEach(activityType -> activityTypes.add(
+                this.activityTypeMapperForJpa.fromJpaActivityTypeEntityToCoreActivityTypeEntity(activityType)
+        ));
 
         return activityTypes;
     }

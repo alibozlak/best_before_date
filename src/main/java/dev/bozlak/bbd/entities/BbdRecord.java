@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.entities;
 
+import dev.bozlak.bbd.repository.implementations.jpa.entities.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

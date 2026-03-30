@@ -1,7 +1,7 @@
-package dev.bozlak.bbd.repository;
+package dev.bozlak.bbd.repository.implementations.jpa.product;
 
 import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto;
-import dev.bozlak.bbd.entities.Product;
+import dev.bozlak.bbd.repository.implementations.jpa.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
+public interface JpaProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT new dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto(" +
             "p.id, " +
