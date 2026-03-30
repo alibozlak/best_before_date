@@ -6,7 +6,7 @@ import dev.bozlak.bbd.service.abstracts.ActivityTypeService;
 import dev.bozlak.bbd.service.abstracts.AuthService;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.security.CustomUserDetailsService;
-import dev.bozlak.bbd.utilities.security.FirstJwtService;
+import dev.bozlak.bbd.utilities.security.JwtManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FirstAuthService implements AuthService {
+public class AuthManager implements AuthService {
 
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailsService;
-    private final FirstJwtService firstJwtService;
+    private final JwtManager jwtManager;
     private final UserService userService;
     private final ActivityTypeService activityTypeService;
 
@@ -33,7 +33,7 @@ public class FirstAuthService implements AuthService {
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(userName);
 
-        String jwtToken = this.firstJwtService.generateToken(userDetails);
+        String jwtToken = this.jwtManager.generateToken(userDetails);
 
         Integer userId = this.userService.getUserIdByUsername(userName);
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FirstProductService implements ProductService {
+public class ProductManager implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;

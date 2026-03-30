@@ -1,20 +1,16 @@
 package dev.bozlak.bbd.service.concretes.user;
 
 import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
-import dev.bozlak.bbd.entities.Store;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.service.abstracts.UserService;
-import dev.bozlak.bbd.utilities.ProjectConstants;
 import dev.bozlak.bbd.utilities.exceptions.user.UserNotFoundException;
 import dev.bozlak.bbd.utilities.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class FirstUserService implements UserService {
+public class UserManager implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -25,7 +21,7 @@ public class FirstUserService implements UserService {
         User user = this.userMapper.toEntity(addUserRequestDto);
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        user.setStore(new Store(ProjectConstants.MEVLANA_STORE_ID, null,null));
+        user.setStoreId(addUserRequestDto.getStoreId());
         this.userRepository.add(user);
     }
 

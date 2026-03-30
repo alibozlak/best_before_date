@@ -1,22 +1,24 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
-
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.mappers.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 @RequiredArgsConstructor
-public class FirstJpaUserRepository implements UserRepository {
+public class JpaUserAdapter implements UserRepository {
 
     private final JpaUserRepository jpaUserRepository;
+    private final UserMapper userMapper;
 
     @Override
     public Optional<User> findByUserName(String userName) {
-        return this.jpaUserRepository.findByUserName(userName);
+        dev.bozlak.bbd.repository.implementations.jpa.entities.User userForJpa
+                = this.jpaUserRepository.findByUserName(userName).orElseThrow();
+        User user = this.userMapper.fromJpaUserToCoreUser(userForJpa);
+        return Optional.of(user);
     }
 
     @Override
@@ -36,7 +38,8 @@ public class FirstJpaUserRepository implements UserRepository {
 
     @Override
     public void add(User user) {
-        this.jpaUserRepository.save(user);
+        dev.bozlak.bbd.repository.implementations.jpa.entities.User userForJpa = this.userMapper.fromCoreUserToJpaUser(user);
+        this.jpaUserRepository.save(userForJpa);
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class FirstUserActivityService implements UserActivityService  {
+public class UserActivityManager implements UserActivityService  {
 
     private final UserActivityRepository userActivityRepository;
 

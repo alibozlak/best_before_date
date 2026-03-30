@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-public class FirstBbdRecordService implements BbdRecordService {
+public class BbdRecordManager implements BbdRecordService {
 
     private final BbdRecordRepository bbdRecordRepository;
     private final BbdRecordMapper bbdRecordMapper;

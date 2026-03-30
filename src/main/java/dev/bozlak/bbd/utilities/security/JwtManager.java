@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class FirstJwtService implements JwtService {
+public class JwtManager implements JwtService {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
