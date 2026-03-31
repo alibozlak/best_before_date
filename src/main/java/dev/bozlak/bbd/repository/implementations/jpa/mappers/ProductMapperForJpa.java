@@ -5,7 +5,7 @@ import dev.bozlak.bbd.repository.implementations.jpa.entities.Product;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper {
+public interface ProductMapperForJpa {
 
     Product fromAddProductRequestDtoToProductEntityForJpa(AddProductRequestDto addProductRequestDto);
 }

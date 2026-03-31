@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
+public interface UserMapperForJpa {
 
     @Mapping(source = "storeId", target = "store.id")
     User fromCoreUserToJpaUser(dev.bozlak.bbd.entities.User user);

@@ -1,12 +1,10 @@
 package dev.bozlak.bbd.service.concretes.useractivity;
 
 import dev.bozlak.bbd.entities.UserActivity;
-import dev.bozlak.bbd.repository.UserActivityRepository;
+import dev.bozlak.bbd.repository.baseabstracts.UserActivityRepository;
 import dev.bozlak.bbd.service.abstracts.UserActivityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class UserActivityManager implements UserActivityService  {
 

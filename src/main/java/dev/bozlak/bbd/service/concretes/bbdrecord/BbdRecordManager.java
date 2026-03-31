@@ -1,20 +1,19 @@
 package dev.bozlak.bbd.service.concretes.bbdrecord;
 
 import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
-import dev.bozlak.bbd.entities.*;
-import dev.bozlak.bbd.repository.BbdRecordRepository;
+import dev.bozlak.bbd.entities.BbdRecord;
+import dev.bozlak.bbd.entities.UserActivity;
+import dev.bozlak.bbd.repository.baseabstracts.BbdRecordRepository;
 import dev.bozlak.bbd.service.abstracts.BbdRecordService;
 import dev.bozlak.bbd.service.abstracts.ProductService;
 import dev.bozlak.bbd.service.abstracts.UserActivityService;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.mappers.BbdRecordMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
-@Service
 @RequiredArgsConstructor
 public class BbdRecordManager implements BbdRecordService {
 
@@ -34,23 +33,18 @@ public class BbdRecordManager implements BbdRecordService {
 
         BbdRecord bbdRecord =
                 this.bbdRecordMapper.fromAddBbdRecordRequestDtoToBbdRecordEntity(addBbdRecordRequestDto);
-        //System.out.println("bbdRecord.getUser().getUserName() = " + bbdRecord.getUser().getUserName());
-        //bbdRecord.getUser().getUserName() = null
-        //System.out.println(bbdRecord.getProduct().getProductName());
-        //null
+
         Integer storeId = this.userService.getStoreIdByUserId(addBbdRecordRequestDto.getUserId());
         bbdRecord.setStoreId(storeId);
         this.bbdRecordRepository.save(bbdRecord);
 
         UserActivity userActivity = new UserActivity();
-        userActivity.setUser(new User(addBbdRecordRequestDto.getUserId()));
+        userActivity.setUserId(addBbdRecordRequestDto.getUserId());
         userActivity.setStoreId(storeId);
         userActivity.setAddedDateTime(LocalDateTime.now());
-        userActivity.setProduct(new dev.bozlak.bbd.repository.implementations.jpa.entities.Product(
-                addBbdRecordRequestDto.getProductId())
-        );
+        userActivity.setProductId(addBbdRecordRequestDto.getProductId());
         userActivity.setQuantity(addBbdRecordRequestDto.getQuantity());
-        userActivity.setActivityType(new ActivityType(addBbdRecordRequestDto.getActivityTypeId()));
+        userActivity.setActivityTypeId(addBbdRecordRequestDto.getActivityTypeId());
         this.userActivityService.add(userActivity);
     }
 

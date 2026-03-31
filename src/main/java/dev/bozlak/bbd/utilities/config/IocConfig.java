@@ -1,29 +1,26 @@
 package dev.bozlak.bbd.utilities.config;
 
-import dev.bozlak.bbd.repository.baseabstracts.ActivityTypeRepository;
-import dev.bozlak.bbd.repository.baseabstracts.ProductRepository;
-import dev.bozlak.bbd.repository.baseabstracts.StoreRepository;
-import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
+import dev.bozlak.bbd.repository.baseabstracts.*;
 import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTypeAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTypeRepository;
-import dev.bozlak.bbd.repository.implementations.jpa.mappers.ActivityTypeMapper;
-import dev.bozlak.bbd.repository.implementations.jpa.mappers.ProductMapper;
-import dev.bozlak.bbd.repository.implementations.jpa.mappers.StoreMapper;
+import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepositoryAdapter;
+import dev.bozlak.bbd.repository.implementations.jpa.mappers.*;
 import dev.bozlak.bbd.repository.implementations.jpa.product.JpaProductAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.product.JpaProductRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.store.JpaStoreAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.store.JpaStoreRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.user.JpaUserAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.user.JpaUserRepository;
-import dev.bozlak.bbd.service.abstracts.ActivityTypeService;
-import dev.bozlak.bbd.service.abstracts.ProductService;
-import dev.bozlak.bbd.service.abstracts.StoreService;
-import dev.bozlak.bbd.service.abstracts.UserService;
+import dev.bozlak.bbd.repository.implementations.jpa.useractivity.JpaUserActivityRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.useractivity.JpaUserActivityRepositoryAdapter;
+import dev.bozlak.bbd.service.abstracts.*;
 import dev.bozlak.bbd.service.concretes.activitytype.ActivityTypeManager;
+import dev.bozlak.bbd.service.concretes.bbdrecord.BbdRecordManager;
 import dev.bozlak.bbd.service.concretes.product.ProductManager;
 import dev.bozlak.bbd.service.concretes.store.StoreManager;
 import dev.bozlak.bbd.service.concretes.user.UserManager;
-import dev.bozlak.bbd.repository.implementations.jpa.mappers.UserMapper;
+import dev.bozlak.bbd.service.concretes.useractivity.UserActivityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,22 +32,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class IocConfig {
 
     private final JpaUserRepository jpaUserRepository;
-    private final UserMapper userMapperForJpa;
+    private final UserMapperForJpa userMapperForJpa;
     private final dev.bozlak.bbd.utilities.mappers.UserMapper userMapper;
 
     private final JpaActivityTypeRepository jpaActivityTypeRepository;
-    private final ActivityTypeMapper activityTypeMapperForJpa;
+    private final ActivityTypeMapperForJpa activityTypeMapperForJpa;
 
     private final JpaStoreRepository jpaStoreRepository;
-    private final StoreMapper storeMapperForJpa;
+    private final StoreMapperForJpa storeMapperForJpa;
 
     private final JpaProductRepository jpaProductRepository;
-    private final ProductMapper productMapperForJpa;
+    private final ProductMapperForJpa productMapperForJpa;
+
+    private final JpaBbdRecordRepository jpaBbdRecordRepository;
+    private final BbdRecordMapperForJpa bbdRecordMapperForJpa;
+    private final dev.bozlak.bbd.utilities.mappers.BbdRecordMapper bbdRecordMapperForCoreEntity;
+
+    private final JpaUserActivityRepository jpaUserActivityRepository;
+    private final UserActivityMapperForJpa userActivityMapperForJpa;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
 
     //---------------- Repository Layer Beans : --------------------
 
@@ -74,6 +79,17 @@ public class IocConfig {
         return new JpaProductAdapter(this.jpaProductRepository, this.productMapperForJpa);
     }
 
+    @Bean
+    public BbdRecordRepository bbdRecordRepository(){
+        return new JpaBbdRecordRepositoryAdapter(this.jpaBbdRecordRepository, this.bbdRecordMapperForJpa);
+    }
+
+    @Bean
+    public UserActivityRepository userActivityRepository(){
+        return new JpaUserActivityRepositoryAdapter(this.jpaUserActivityRepository, this.userActivityMapperForJpa);
+    }
+
+
     //---------------- Service Layer Beans : --------------------
 
     @Bean
@@ -94,5 +110,21 @@ public class IocConfig {
     @Bean
     public ProductService productService(){
         return new ProductManager(this.productRepository());
+    }
+
+    @Bean
+    public BbdRecordService bbdRecordService(){
+        return new BbdRecordManager(
+                this.bbdRecordRepository(),
+                this.bbdRecordMapperForCoreEntity,
+                this.userService(),
+                this.productService(),
+                this.userActivityService()
+        );
+    }
+
+    @Bean
+    public UserActivityService userActivityService() {
+        return new UserActivityManager(this.userActivityRepository());
     }
 }
