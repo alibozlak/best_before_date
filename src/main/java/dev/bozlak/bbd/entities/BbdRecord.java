@@ -18,5 +18,6 @@ public class BbdRecord extends dev.bozlak.core.entity.Entity {
     private Integer storeId;
     private Integer productId;
     private LocalDate bestBeforeDate;
+    private LocalDate removalDate;
     private Short quantity;
 }

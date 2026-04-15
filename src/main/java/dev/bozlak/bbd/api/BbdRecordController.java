@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/bbdrecords")
 @RequiredArgsConstructor
-public class BbdRecordController {
+public class    BbdRecordController {
 
     private final BbdRecordService bbdRecordService;
 

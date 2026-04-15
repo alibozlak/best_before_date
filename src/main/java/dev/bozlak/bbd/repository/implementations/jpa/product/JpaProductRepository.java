@@ -4,6 +4,7 @@ import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDt
 import dev.bozlak.bbd.repository.implementations.jpa.entities.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +19,7 @@ public interface JpaProductRepository extends JpaRepository<Product, Integer> {
             "p.price) " +
             "FROM Product p ORDER BY p.productCode")
     List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto();
+
+    @Query("SELECT p.bestBefore FROM Product p WHERE p.id = :productId")
+    Short getBestBeforeById(@Param("productId") Integer productId);
 }

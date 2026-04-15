@@ -10,4 +10,5 @@ public interface ProductRepository {
     List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto();
     void save(AddProductRequestDto addProductRequestDto);
     boolean existsById(Integer productId);
+    Short getHowManyDaysAgoForRemovalByProductId(Integer productId);
 }

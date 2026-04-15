@@ -12,6 +12,7 @@ import dev.bozlak.bbd.utilities.mappers.BbdRecordMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -26,16 +27,23 @@ public class BbdRecordManager implements BbdRecordService {
     @Override
     @Transactional
     public void add(AddBbdRecordRequestDto addBbdRecordRequestDto) {
-        if (!doesExistProductIdGivenNumber(addBbdRecordRequestDto.getProductId()))
+        Integer productId = addBbdRecordRequestDto.getProductId();
+        if (!doesExistProductIdGivenNumber(productId))
             throw new RuntimeException("Doesn't exist record in products table given number for product id!!");
-        if (!doesExistUserIdGivenNumber(addBbdRecordRequestDto.getUserId()))
+        Integer userId = addBbdRecordRequestDto.getUserId();
+        if (!doesExistUserIdGivenNumber(userId))
             throw new RuntimeException("Doesn't exist record in users table given number for user id!!");
 
         BbdRecord bbdRecord =
                 this.bbdRecordMapper.fromAddBbdRecordRequestDtoToBbdRecordEntity(addBbdRecordRequestDto);
 
-        Integer storeId = this.userService.getStoreIdByUserId(addBbdRecordRequestDto.getUserId());
+        Integer storeId = this.userService.getStoreIdByUserId(userId);
         bbdRecord.setStoreId(storeId);
+
+        Short howManyDaysAgoForRemoval = this.productService.getHowManyDaysAgoForRemovalByProductId(productId);
+        LocalDate removalDate = addBbdRecordRequestDto.getBestBeforeDate().minusDays((long)howManyDaysAgoForRemoval);
+        bbdRecord.setRemovalDate(removalDate);
+
         this.bbdRecordRepository.save(bbdRecord);
 
         UserActivity userActivity = new UserActivity();

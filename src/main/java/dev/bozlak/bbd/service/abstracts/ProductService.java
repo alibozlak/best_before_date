@@ -10,4 +10,5 @@ public interface ProductService {
     void add(AddProductRequestDto addProductRequestDto);
     boolean doesExistProductIdGivenNumber(Integer productId);
     List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto();
+    Short getHowManyDaysAgoForRemovalByProductId(Integer productId);
 }

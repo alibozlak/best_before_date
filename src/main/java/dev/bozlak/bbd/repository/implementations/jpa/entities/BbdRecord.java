@@ -35,5 +35,8 @@ public class BbdRecord {
     private LocalDate bestBeforeDate;
 
     @Column(nullable = false)
+    private LocalDate removalDate;
+
+    @Column(nullable = false)
     private Short quantity;
 }

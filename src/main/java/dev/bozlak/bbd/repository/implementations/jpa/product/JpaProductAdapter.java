@@ -30,6 +30,12 @@ public class JpaProductAdapter implements ProductRepository {
 
     @Override
     public boolean existsById(Integer productId) {
+
         return this.jpaProductRepository.existsById(productId);
+    }
+
+    @Override
+    public Short getHowManyDaysAgoForRemovalByProductId(Integer productId) {
+        return this.jpaProductRepository.getBestBeforeById(productId);
     }
 }

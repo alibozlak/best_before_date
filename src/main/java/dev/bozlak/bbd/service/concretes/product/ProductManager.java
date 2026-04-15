@@ -27,4 +27,9 @@ public class ProductManager implements ProductService {
     public List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto() {
         return this.productRepository.getAllProductIdNameCodeAndPriceDto();
     }
+
+    @Override
+    public Short getHowManyDaysAgoForRemovalByProductId(Integer productId) {
+        return this.productRepository.getHowManyDaysAgoForRemovalByProductId(productId);
+    }
 }
