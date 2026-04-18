@@ -1,7 +1,7 @@
 package dev.bozlak.bbd.repository.implementations.jpa.homepage;
 
 import dev.bozlak.bbd.repository.implementations.jpa.entities.BbdRecord;
-import dev.bozlak.bbd.utilities.dtos.RemovalDateSectionForSql;
+import dev.bozlak.bbd.repository.implementations.jpa.dtos.RemovalDateSectionForSql;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface JpaHomePageRepository extends JpaRepository<BbdRecord, Long> {
 
-    @Query("SELECT new dev.bozlak.bbd.utilities.dtos.RemovalDateSectionForSql(" +
+    @Query("SELECT new dev.bozlak.bbd.repository.implementations.jpa.dtos.RemovalDateSectionForSql(" +
             "bbd.removalDate, " +
             "bbd.id, " +
             "bbd.product.productCode, " +
@@ -27,6 +27,4 @@ public interface JpaHomePageRepository extends JpaRepository<BbdRecord, Long> {
     List<RemovalDateSectionForSql> getCurrentBbdList(
             @Param("today") LocalDate today, @Param("storeId") Integer storeId
     );
-
-    
 }

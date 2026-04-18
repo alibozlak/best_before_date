@@ -5,6 +5,8 @@ import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTyp
 import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTypeRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepositoryAdapter;
+import dev.bozlak.bbd.repository.implementations.jpa.homepage.JpaHomePageRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.homepage.JpaHomePageRepositoryAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.*;
 import dev.bozlak.bbd.repository.implementations.jpa.product.JpaProductAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.product.JpaProductRepository;
@@ -17,6 +19,7 @@ import dev.bozlak.bbd.repository.implementations.jpa.useractivity.JpaUserActivit
 import dev.bozlak.bbd.service.abstracts.*;
 import dev.bozlak.bbd.service.concretes.activitytype.ActivityTypeManager;
 import dev.bozlak.bbd.service.concretes.bbdrecord.BbdRecordManager;
+import dev.bozlak.bbd.service.concretes.homepage.HomePageServiceImpl;
 import dev.bozlak.bbd.service.concretes.product.ProductManager;
 import dev.bozlak.bbd.service.concretes.store.StoreManager;
 import dev.bozlak.bbd.service.concretes.user.UserManager;
@@ -50,6 +53,8 @@ public class IocConfig {
 
     private final JpaUserActivityRepository jpaUserActivityRepository;
     private final UserActivityMapperForJpa userActivityMapperForJpa;
+
+    private final JpaHomePageRepository jpaHomePageRepository;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -89,6 +94,11 @@ public class IocConfig {
         return new JpaUserActivityRepositoryAdapter(this.jpaUserActivityRepository, this.userActivityMapperForJpa);
     }
 
+    @Bean
+    public HomePageRepository homePageRepository(){
+        return new JpaHomePageRepositoryAdapter(this.jpaHomePageRepository);
+    }
+
 
     //---------------- Service Layer Beans : --------------------
 
@@ -126,5 +136,10 @@ public class IocConfig {
     @Bean
     public UserActivityService userActivityService() {
         return new UserActivityManager(this.userActivityRepository());
+    }
+
+    @Bean
+    public HomePageService homePageService(){
+        return new HomePageServiceImpl(this.homePageRepository(), this.userService());
     }
 }

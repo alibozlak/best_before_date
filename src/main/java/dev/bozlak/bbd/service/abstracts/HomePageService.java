@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface HomePageService {
 
-    List<RemovalDateSection> getCurrentBbdList(Integer userId);
+    List<RemovalDateSection> getCurrentAndSortedBbdList(Integer userId);
 }

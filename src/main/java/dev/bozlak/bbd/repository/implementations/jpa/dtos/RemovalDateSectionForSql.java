@@ -1,16 +1,15 @@
-package dev.bozlak.bbd.utilities.dtos;
+package dev.bozlak.bbd.repository.implementations.jpa.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class RemovalDateSectionForSql {
 
     private LocalDate removalDate;
@@ -19,6 +18,6 @@ public class RemovalDateSectionForSql {
     private String productName;
     private Short quantity;
     private LocalDate bestBeforeDate;
-    private Double unitPrice;
+    private BigDecimal unitPrice;
     private Short tax;
 }
