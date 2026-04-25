@@ -7,8 +7,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface BbdRecordMapperForJpa {
 
-
-    @Mapping(target = "user.id", source = "userId")
     @Mapping(target = "product.id", source = "productId")
     BbdRecord fromBbdRecordCoreEntityToBbdRecordForJpaEntity(dev.bozlak.bbd.entities.BbdRecord bbdRecord);
 }

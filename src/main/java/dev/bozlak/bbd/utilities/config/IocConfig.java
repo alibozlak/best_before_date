@@ -24,6 +24,7 @@ import dev.bozlak.bbd.service.concretes.product.ProductManager;
 import dev.bozlak.bbd.service.concretes.store.StoreManager;
 import dev.bozlak.bbd.service.concretes.user.UserManager;
 import dev.bozlak.bbd.service.concretes.useractivity.UserActivityManager;
+import dev.bozlak.bbd.utilities.mappers.UserActivityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +51,7 @@ public class IocConfig {
     private final JpaBbdRecordRepository jpaBbdRecordRepository;
     private final BbdRecordMapperForJpa bbdRecordMapperForJpa;
     private final dev.bozlak.bbd.utilities.mappers.BbdRecordMapper bbdRecordMapperForCoreEntity;
+    private final UserActivityMapper userActivityMapper;
 
     private final JpaUserActivityRepository jpaUserActivityRepository;
     private final UserActivityMapperForJpa userActivityMapperForJpa;
@@ -127,6 +129,7 @@ public class IocConfig {
         return new BbdRecordManager(
                 this.bbdRecordRepository(),
                 this.bbdRecordMapperForCoreEntity,
+                this.userActivityMapper,
                 this.userService(),
                 this.productService(),
                 this.userActivityService()

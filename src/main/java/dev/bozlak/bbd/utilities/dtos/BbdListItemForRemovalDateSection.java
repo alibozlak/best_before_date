@@ -20,5 +20,5 @@ public class BbdListItemForRemovalDateSection {
     private LocalDate bestBeforeDate;
     private Double unitPrice;
     private Short tax;
-    private Double affectInventory;
+    private Long affectInventory;
 }

@@ -22,7 +22,8 @@ public interface JpaHomePageRepository extends JpaRepository<BbdRecord, Long> {
             "bbd.bestBeforeDate, " +
             "bbd.product.price, " +
             "bbd.product.tax) " +
-            "FROM BbdRecord bbd WHERE bbd.bestBeforeDate >= :today AND bbd.storeId = :storeId " +
+            "FROM BbdRecord bbd WHERE bbd.bestBeforeDate >= :today AND bbd.storeId = :storeId AND " +
+            "bbd.quantity > 0 " +
             "ORDER BY bbd.removalDate")
     List<RemovalDateSectionForSql> getCurrentBbdList(
             @Param("today") LocalDate today, @Param("storeId") Integer storeId

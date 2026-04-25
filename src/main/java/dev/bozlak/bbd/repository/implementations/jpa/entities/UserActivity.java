@@ -24,15 +24,12 @@ public class UserActivity extends dev.bozlak.core.entity.Entity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private Integer storeId;
+    @ManyToOne
+    @JoinColumn(name = "bbd_record_id", nullable = false)
+    private BbdRecord bbdRecord;
 
     @Column(nullable = false)
     private LocalDateTime addedDateTime;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
 
     /**
      * Count of Activity Type
@@ -43,4 +40,7 @@ public class UserActivity extends dev.bozlak.core.entity.Entity {
     @ManyToOne
     @JoinColumn(name = "activity_type_id", nullable = false)
     private ActivityType activityType;
+
+    @Column(nullable = true)
+    private String activityNote;
 }

@@ -30,10 +30,4 @@ public class User {
 
     @Column(nullable = false)
     private Boolean isAdmin;
-
-    //--------------Constructors-------------
-
-    public User(Integer userId) {
-        this.setId(userId);
-    }
 }

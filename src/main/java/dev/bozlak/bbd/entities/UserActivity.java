@@ -15,9 +15,9 @@ public class UserActivity extends dev.bozlak.core.entity.Entity {
 
     private Long id;
     private Integer userId;
-    private Integer storeId;
+    private Long bbdRecordId;
     private LocalDateTime addedDateTime;
-    private Integer productId;
     private Short quantity;
     private Byte activityTypeId;
+    private String activityNote;
 }

@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 public interface UserActivityMapperForJpa {
 
     @Mapping(target = "user.id", source = "userId")
-    @Mapping(target = "product.id", source = "productId")
     @Mapping(target = "activityType.id", source = "activityTypeId")
+    @Mapping(target = "bbdRecord.id", source = "bbdRecordId")
     UserActivity fromUserActivityCoreEntityToUserActivityForJpa(dev.bozlak.bbd.entities.UserActivity userActivity);
 }

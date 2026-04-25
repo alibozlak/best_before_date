@@ -20,10 +20,6 @@ public class BbdRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne
-    private User user;
-
     @Column(nullable = false)
     private Integer storeId;
 

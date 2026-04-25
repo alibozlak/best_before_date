@@ -59,9 +59,10 @@ public class JpaHomePageRepositoryAdapter implements HomePageRepository {
                 removalDateSectionForSql.getBestBeforeDate(),
                 removalDateSectionForSql.getUnitPrice().doubleValue(),
                 removalDateSectionForSql.getTax(),
-                removalDateSectionForSql.getUnitPrice().doubleValue() *
+                Math.round(removalDateSectionForSql.getUnitPrice().doubleValue() *
                         (1 - removalDateSectionForSql.getTax().doubleValue()/100.0) *
                         removalDateSectionForSql.getQuantity() * (-1)
+                )
         ));
     }
 }

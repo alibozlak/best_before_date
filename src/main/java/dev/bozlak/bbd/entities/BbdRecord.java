@@ -14,7 +14,6 @@ import java.time.LocalDate;
 public class BbdRecord extends dev.bozlak.core.entity.Entity {
 
     private Long id;
-    private Integer userId;
     private Integer storeId;
     private Integer productId;
     private LocalDate bestBeforeDate;
