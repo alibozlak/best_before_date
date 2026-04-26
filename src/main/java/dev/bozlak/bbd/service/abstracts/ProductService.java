@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductService {
 
     void add(AddProductRequestDto addProductRequestDto);
-    boolean doesExistProductIdGivenNumber(Integer productId);
     List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto();
+    String getProductNameByProductId(Integer productId);
     Short getHowManyDaysAgoForRemovalByProductId(Integer productId);
 }

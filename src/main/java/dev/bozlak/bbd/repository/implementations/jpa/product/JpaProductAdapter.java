@@ -29,8 +29,12 @@ public class JpaProductAdapter implements ProductRepository {
     }
 
     @Override
-    public boolean existsById(Integer productId) {
+    public String getProductNameByProductId(Integer productId) {
+        return this.jpaProductRepository.getProductNameByProductId(productId);
+    }
 
+    @Override
+    public boolean existsById(Integer productId) {
         return this.jpaProductRepository.existsById(productId);
     }
 

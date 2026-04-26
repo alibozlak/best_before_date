@@ -9,6 +9,7 @@ public interface ProductRepository {
 
     List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto();
     void save(AddProductRequestDto addProductRequestDto);
+    String getProductNameByProductId(Integer productId);
     boolean existsById(Integer productId);
     Short getHowManyDaysAgoForRemovalByProductId(Integer productId);
 }

@@ -26,7 +26,7 @@ public class JpaHomePageRepositoryAdapter implements HomePageRepository {
         List<RemovalDateSection> listForHomePage = new ArrayList<>(listOfRemovalDateSectionForSql.size());
         Set<LocalDate> removalDates = new HashSet<>();
 
-        //ToDo
+        //FixMe
         listOfRemovalDateSectionForSql.forEach(rdsfs -> {
             if (removalDates.contains(rdsfs.getRemovalDate())){
                 RemovalDateSection removalDateSection

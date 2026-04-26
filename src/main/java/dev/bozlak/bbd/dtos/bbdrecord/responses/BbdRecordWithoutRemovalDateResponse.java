@@ -1,7 +1,5 @@
 package dev.bozlak.bbd.dtos.bbdrecord.responses;
 
-import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto;
-import dev.bozlak.core.entity.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +11,10 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BbdRecordIdProductBbDateQuantityDto extends Dto {
+public class BbdRecordWithoutRemovalDateResponse {
 
     private Long id;
-    private ProductIdNameCodeAndPriceResponseDto productIdNameCodeAndPriceResponseDto;
+    private Integer productId;
     private LocalDate bestBeforeDate;
     private Short quantity;
 }

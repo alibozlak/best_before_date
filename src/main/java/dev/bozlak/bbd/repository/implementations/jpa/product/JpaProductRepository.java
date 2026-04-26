@@ -20,6 +20,9 @@ public interface JpaProductRepository extends JpaRepository<Product, Integer> {
             "FROM Product p ORDER BY p.productCode")
     List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto();
 
+    @Query("SELECT p.productName FROM Product p WHERE p.id = :productId")
+    String getProductNameByProductId(@Param("productId") Integer productId);
+
     @Query("SELECT p.bestBefore FROM Product p WHERE p.id = :productId")
     Short getBestBeforeById(@Param("productId") Integer productId);
 }

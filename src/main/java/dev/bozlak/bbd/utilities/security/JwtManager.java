@@ -23,7 +23,7 @@ public class JwtManager implements JwtService {
 
     @Override
     public String generateToken(UserDetails userDetails){
-        return this.buildToken(new HashMap<>(), userDetails, 1000 * 60 * 60 * 24);
+        return this.buildToken(new HashMap<>(), userDetails, 1000 * 60 * 60 * 24 * 7);
     }
 
     public String generateRefreshToken(UserDetails userDetails){

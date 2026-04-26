@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.repository.implementations.jpa.bbdrecord;
 
 import dev.bozlak.bbd.dtos.bbdrecord.modelsforbackend.BbdRecordIdAndQuantityModel;
+import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdRecordWithoutRemovalDateResponse;
 import dev.bozlak.bbd.entities.BbdRecord;
 import dev.bozlak.bbd.repository.baseabstracts.BbdRecordRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.BbdRecordMapperForJpa;
@@ -14,10 +15,7 @@ public class JpaBbdRecordRepositoryAdapter implements BbdRecordRepository {
 
     @Override
     public Long save(BbdRecord bbdRecord) {
-        dev.bozlak.bbd.repository.implementations.jpa.entities.BbdRecord bbdRecordForJpa
-                = this.bbdRecordMapperForJpa.fromBbdRecordCoreEntityToBbdRecordForJpaEntity(bbdRecord);
-
-        return this.jpaBbdRecordRepository.save(bbdRecordForJpa).getId();
+        return this.saveOrUpdateBbdRecord(bbdRecord);
     }
 
     @Override
@@ -25,5 +23,24 @@ public class JpaBbdRecordRepositoryAdapter implements BbdRecordRepository {
         this.jpaBbdRecordRepository.saleProduct(
                 bbdRecordIdAndQuantityModel.getBbdRecordId(), bbdRecordIdAndQuantityModel.getNewQuantity()
         );
+    }
+
+    @Override
+    public BbdRecordWithoutRemovalDateResponse getBbdRecordWithoutRemovalDateResponseDtoByBbdRecordId(
+            Long bbdRecordId
+    ) {
+        return this.jpaBbdRecordRepository.getBbdRecordWithoutRemovalDateResponseDtoByBbdRecordId(bbdRecordId);
+    }
+
+    @Override
+    public Long updateBbdRecord(BbdRecord bbdRecord) {
+        return this.saveOrUpdateBbdRecord(bbdRecord);
+    }
+
+    private Long saveOrUpdateBbdRecord(BbdRecord bbdRecord){
+        dev.bozlak.bbd.repository.implementations.jpa.entities.BbdRecord bbdRecordForJpa
+                = this.bbdRecordMapperForJpa.fromBbdRecordCoreEntityToBbdRecordForJpaEntity(bbdRecord);
+
+        return this.jpaBbdRecordRepository.save(bbdRecordForJpa).getId();
     }
 }

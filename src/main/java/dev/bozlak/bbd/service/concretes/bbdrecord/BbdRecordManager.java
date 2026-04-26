@@ -3,6 +3,11 @@ package dev.bozlak.bbd.service.concretes.bbdrecord;
 import dev.bozlak.bbd.dtos.bbdrecord.modelsforbackend.BbdRecordIdAndQuantityModel;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.SaleProductRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.UpdateBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdRecordWithoutRemovalDateResponse;
+import dev.bozlak.bbd.dtos.bbdrecord.responses.EditBbdRecordPageResponseDto;
+import dev.bozlak.bbd.dtos.forupdatebbdrecordpage.UpdateBbdRecordPageResponseDto;
+import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto;
 import dev.bozlak.bbd.entities.BbdRecord;
 import dev.bozlak.bbd.entities.UserActivity;
 import dev.bozlak.bbd.repository.baseabstracts.BbdRecordRepository;
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class BbdRecordManager implements BbdRecordService {
@@ -31,30 +37,23 @@ public class BbdRecordManager implements BbdRecordService {
     @Override
     @Transactional
     public void add(AddBbdRecordRequestDto addBbdRecordRequestDto) {
-        Integer productId = addBbdRecordRequestDto.getProductId();
-        if (!doesExistProductIdGivenNumber(productId))
-            throw new RuntimeException("Doesn't exist record in products table given number for product id!!");
-        Integer userId = addBbdRecordRequestDto.getUserId();
-        if (!doesExistUserIdGivenNumber(userId))
-            throw new RuntimeException("Doesn't exist record in users table given number for user id!!");
 
-        BbdRecord bbdRecord =
-                this.bbdRecordMapper.fromAddBbdRecordRequestDtoToBbdRecordEntity(addBbdRecordRequestDto);
+        BbdRecord bbdRecord = this.utilMethodForAddAndUpdateBbdRecord(addBbdRecordRequestDto);
+        Long returnedBbdRecordId = this.bbdRecordRepository.save(bbdRecord);
 
-        Integer storeId = this.userService.getStoreIdByUserId(userId);
-        bbdRecord.setStoreId(storeId);
+        this.addUserActivityForAddingAndUpdatingBbdRecord(addBbdRecordRequestDto, returnedBbdRecordId);
+    }
 
-        Short howManyDaysAgoForRemoval = this.productService.getHowManyDaysAgoForRemovalByProductId(productId);
-        LocalDate removalDate = addBbdRecordRequestDto.getBestBeforeDate().minusDays((long)howManyDaysAgoForRemoval);
-        bbdRecord.setRemovalDate(removalDate);
+    @Override
+    public EditBbdRecordPageResponseDto getEditBbdRecordPageResponse(Long bbdRecordId) {
+        var editBbdRecordPageResponseDtoWithoutProductName
+                = this.bbdRecordRepository.getBbdRecordWithoutRemovalDateResponseDtoByBbdRecordId(bbdRecordId);
 
-        Long bbdRecordId = this.bbdRecordRepository.save(bbdRecord);
+        String productName = this.productService.getProductNameByProductId(
+                editBbdRecordPageResponseDtoWithoutProductName.getProductId()
+        );
 
-        UserActivity userActivity = this.userActivityMapper
-                .toUserActivityFromAddBbdRecordRequestDto(addBbdRecordRequestDto);
-        userActivity.setAddedDateTime(LocalDateTime.now());
-        userActivity.setBbdRecordId(bbdRecordId);
-        this.userActivityService.add(userActivity);
+        return new EditBbdRecordPageResponseDto(editBbdRecordPageResponseDtoWithoutProductName, productName);
     }
 
     @Override
@@ -71,11 +70,56 @@ public class BbdRecordManager implements BbdRecordService {
         this.userActivityService.add(userActivity);
     }
 
-    private boolean doesExistProductIdGivenNumber(Integer productId){
-        return this.productService.doesExistProductIdGivenNumber(productId);
+    @Override
+    public UpdateBbdRecordPageResponseDto getUpdateBbdRecordPageDto(Long bbdRecordId) {
+        BbdRecordWithoutRemovalDateResponse bbdRecordWithoutRemovalDateResponse
+                = this.bbdRecordRepository.getBbdRecordWithoutRemovalDateResponseDtoByBbdRecordId(bbdRecordId);
+
+        List<ProductIdNameCodeAndPriceResponseDto> productIdNameCodeAndPriceResponseDtoList
+                = this.productService.getAllProductIdNameCodeAndPriceDto();
+
+        return new UpdateBbdRecordPageResponseDto(
+                bbdRecordWithoutRemovalDateResponse, productIdNameCodeAndPriceResponseDtoList
+        );
     }
 
-    private boolean doesExistUserIdGivenNumber(Integer userId){
-        return this.userService.doesExistUserIdGivenNumber(userId);
+    @Override
+    @Transactional
+    public Long updateBbdRecord(UpdateBbdRecordRequestDto updateBbdRecordRequestDto) {
+
+        BbdRecord bbdRecord = this.utilMethodForAddAndUpdateBbdRecord(updateBbdRecordRequestDto);
+        bbdRecord.setId(updateBbdRecordRequestDto.getBbdRecordId());
+        Long returnedBbdRecordId = this.bbdRecordRepository.updateBbdRecord(bbdRecord);
+
+        this.addUserActivityForAddingAndUpdatingBbdRecord(updateBbdRecordRequestDto, returnedBbdRecordId);
+
+        return returnedBbdRecordId;
+    }
+
+    private BbdRecord utilMethodForAddAndUpdateBbdRecord(AddBbdRecordRequestDto addBbdRecordRequestDto){
+        Integer productId = addBbdRecordRequestDto.getProductId();
+        Integer userId = addBbdRecordRequestDto.getUserId();
+
+        BbdRecord bbdRecord =
+                this.bbdRecordMapper.fromAddBbdRecordRequestDtoToBbdRecordEntity(addBbdRecordRequestDto);
+
+        Integer storeId = this.userService.getStoreIdByUserId(userId);
+        bbdRecord.setStoreId(storeId);
+
+        Short howManyDaysAgoForRemoval = this.productService.getHowManyDaysAgoForRemovalByProductId(productId);
+        LocalDate removalDate = addBbdRecordRequestDto.getBestBeforeDate().minusDays((long)howManyDaysAgoForRemoval);
+        bbdRecord.setRemovalDate(removalDate);
+
+        return bbdRecord;
+    }
+
+    private void addUserActivityForAddingAndUpdatingBbdRecord(
+            AddBbdRecordRequestDto addBbdRecordRequestDto, Long returnedBbdRecordId
+    ){
+        UserActivity userActivity = this.userActivityMapper
+                .toUserActivityFromAddBbdRecordRequestDto(addBbdRecordRequestDto);
+        userActivity.setAddedDateTime(LocalDateTime.now());
+        userActivity.setBbdRecordId(returnedBbdRecordId);
+        this.userActivityService.add(userActivity);
     }
 }

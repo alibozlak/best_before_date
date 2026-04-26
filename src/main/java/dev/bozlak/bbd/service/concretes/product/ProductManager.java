@@ -19,13 +19,13 @@ public class ProductManager implements ProductService {
     }
 
     @Override
-    public boolean doesExistProductIdGivenNumber(Integer productId) {
-        return this.productRepository.existsById(productId);
+    public List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto() {
+        return this.productRepository.getAllProductIdNameCodeAndPriceDto();
     }
 
     @Override
-    public List<ProductIdNameCodeAndPriceResponseDto> getAllProductIdNameCodeAndPriceDto() {
-        return this.productRepository.getAllProductIdNameCodeAndPriceDto();
+    public String getProductNameByProductId(Integer productId) {
+        return this.productRepository.getProductNameByProductId(productId);
     }
 
     @Override
