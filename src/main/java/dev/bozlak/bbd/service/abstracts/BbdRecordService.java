@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.service.abstracts;
 
 import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.DeleteBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.SaleProductRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.UpdateBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.EditBbdRecordPageResponseDto;
@@ -17,4 +18,6 @@ public interface BbdRecordService {
     UpdateBbdRecordPageResponseDto getUpdateBbdRecordPageDto(Long bbdRecordId);
 
     Long updateBbdRecord(UpdateBbdRecordRequestDto updateBbdRecordRequestDto);
+
+    Boolean deleteBbdRecordById(DeleteBbdRecordRequestDto deleteBbdRecordRequestDto);
 }

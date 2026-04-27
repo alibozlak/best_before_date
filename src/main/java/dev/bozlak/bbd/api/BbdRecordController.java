@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.api;
 
 import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.DeleteBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.SaleProductRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.UpdateBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.EditBbdRecordPageResponseDto;
@@ -50,5 +51,13 @@ public class BbdRecordController {
             @RequestBody UpdateBbdRecordRequestDto updateBbdRecordRequestDto
     ){
         return new ResponseBodyWithObject<>(this.bbdRecordService.updateBbdRecord(updateBbdRecordRequestDto));
+    }
+
+    @DeleteMapping
+    public ResponseBody deleteBbdRecordById(
+            @RequestBody DeleteBbdRecordRequestDto deleteBbdRecordRequestDto
+    ){
+        this.bbdRecordService.deleteBbdRecordById(deleteBbdRecordRequestDto);
+        return new ResponseBody(true);
     }
 }

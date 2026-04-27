@@ -37,6 +37,12 @@ public class JpaBbdRecordRepositoryAdapter implements BbdRecordRepository {
         return this.saveOrUpdateBbdRecord(bbdRecord);
     }
 
+    @Override
+    public Boolean deleteBbdRecordById(Long bbdRecordId) {
+        this.jpaBbdRecordRepository.setQuantityColumnZeroInBbdRecordsTable(bbdRecordId);
+        return true;
+    }
+
     private Long saveOrUpdateBbdRecord(BbdRecord bbdRecord){
         dev.bozlak.bbd.repository.implementations.jpa.entities.BbdRecord bbdRecordForJpa
                 = this.bbdRecordMapperForJpa.fromBbdRecordCoreEntityToBbdRecordForJpaEntity(bbdRecord);

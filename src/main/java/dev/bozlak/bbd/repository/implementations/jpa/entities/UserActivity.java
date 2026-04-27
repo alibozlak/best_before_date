@@ -40,7 +40,4 @@ public class UserActivity extends dev.bozlak.core.entity.Entity {
     @ManyToOne
     @JoinColumn(name = "activity_type_id", nullable = false)
     private ActivityType activityType;
-
-    @Column(nullable = true)
-    private String activityNote;
 }

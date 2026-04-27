@@ -2,6 +2,7 @@ package dev.bozlak.bbd.service.concretes.bbdrecord;
 
 import dev.bozlak.bbd.dtos.bbdrecord.modelsforbackend.BbdRecordIdAndQuantityModel;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.DeleteBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.SaleProductRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.requests.UpdateBbdRecordRequestDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdRecordWithoutRemovalDateResponse;
@@ -94,6 +95,21 @@ public class BbdRecordManager implements BbdRecordService {
         this.addUserActivityForAddingAndUpdatingBbdRecord(updateBbdRecordRequestDto, returnedBbdRecordId);
 
         return returnedBbdRecordId;
+    }
+
+    @Override
+    @Transactional
+    public Boolean deleteBbdRecordById(DeleteBbdRecordRequestDto deleteBbdRecordRequestDto) {
+
+        if (this.bbdRecordRepository.deleteBbdRecordById(deleteBbdRecordRequestDto.getBbdRecordId())){
+            UserActivity userActivity =
+                    this.userActivityMapper.toUserActivityFromDeleteBbdRecordRequestDto(deleteBbdRecordRequestDto);
+            userActivity.setAddedDateTime(LocalDateTime.now());
+            this.userActivityService.add(userActivity);
+            return true;
+        }
+
+        return false;
     }
 
     private BbdRecord utilMethodForAddAndUpdateBbdRecord(AddBbdRecordRequestDto addBbdRecordRequestDto){

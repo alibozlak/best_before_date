@@ -1,22 +1,20 @@
-package dev.bozlak.bbd.entities;
+package dev.bozlak.bbd.dtos.bbdrecord.requests;
 
+import dev.bozlak.core.entity.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserActivity extends dev.bozlak.core.entity.Entity {
+public class DeleteBbdRecordRequestDto extends Dto {
 
-    private Long id;
-    private Integer userId;
     private Long bbdRecordId;
-    private LocalDateTime addedDateTime;
+
+    private Integer userId;
     private Short quantity;
     private Byte activityTypeId;
 }

@@ -24,4 +24,8 @@ public interface JpaBbdRecordRepository extends JpaRepository<BbdRecord, Long> {
     BbdRecordWithoutRemovalDateResponse getBbdRecordWithoutRemovalDateResponseDtoByBbdRecordId(
             @Param("bbdRecordId") Long bbdRecordId
     );
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE BbdRecord bbd SET bbd.quantity = 0 WHERE bbd.id = :bbdRecordId")
+    void setQuantityColumnZeroInBbdRecordsTable(@Param("bbdRecordId") Long bbdRecordId);
 }

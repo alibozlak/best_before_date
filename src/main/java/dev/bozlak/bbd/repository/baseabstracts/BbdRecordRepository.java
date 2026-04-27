@@ -13,4 +13,6 @@ public interface BbdRecordRepository {
     BbdRecordWithoutRemovalDateResponse getBbdRecordWithoutRemovalDateResponseDtoByBbdRecordId(Long bbdRecordId);
 
     Long updateBbdRecord(BbdRecord bbdRecord);
+
+    Boolean deleteBbdRecordById(Long bbdRecordId);
 }
