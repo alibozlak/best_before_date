@@ -20,7 +20,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseBody addUser(@RequestBody @Valid AddUserRequestDto addUserRequestDto){
         this.userService.add(addUserRequestDto);
         return new ResponseBody(true);

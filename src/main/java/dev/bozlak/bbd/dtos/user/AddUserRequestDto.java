@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class AddUserRequestDto extends Dto {
 
     @NotNull(message = "Username must be not null!!")
@@ -19,4 +21,8 @@ public class AddUserRequestDto extends Dto {
     private String password;
 
     private Integer storeId;
+
+    private Boolean isAdmin;
+
+    private Boolean isActive;
 }

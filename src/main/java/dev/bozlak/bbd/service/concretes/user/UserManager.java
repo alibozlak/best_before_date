@@ -21,7 +21,6 @@ public class UserManager implements UserService {
         User user = this.userMapper.toEntity(addUserRequestDto);
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-        user.setStoreId(addUserRequestDto.getStoreId());
         this.userRepository.add(user);
     }
 

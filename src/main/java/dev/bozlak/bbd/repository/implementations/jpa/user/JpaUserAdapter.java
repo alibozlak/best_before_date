@@ -38,7 +38,8 @@ public class JpaUserAdapter implements UserRepository {
 
     @Override
     public void add(User user) {
-        dev.bozlak.bbd.repository.implementations.jpa.entities.User userForJpa = this.userMapperForJpa.fromCoreUserToJpaUser(user);
+        dev.bozlak.bbd.repository.implementations.jpa.entities.User userForJpa
+                = this.userMapperForJpa.fromCoreUserToJpaUser(user);
         this.jpaUserRepository.save(userForJpa);
     }
 

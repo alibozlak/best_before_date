@@ -5,6 +5,8 @@ import dev.bozlak.bbd.repository.baseabstracts.StoreRepository;
 import dev.bozlak.bbd.service.abstracts.StoreService;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class StoreManager implements StoreService {
 
@@ -13,5 +15,10 @@ public class StoreManager implements StoreService {
     @Override
     public Store getStoreByStoreId(Integer storeId) {
         return this.storeRepository.getStoreByStoreId(storeId);
+    }
+
+    @Override
+    public List<Store> getStoreList() {
+        return this.storeRepository.getStores();
     }
 }

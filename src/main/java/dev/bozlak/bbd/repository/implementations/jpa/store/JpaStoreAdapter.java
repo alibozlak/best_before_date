@@ -5,6 +5,8 @@ import dev.bozlak.bbd.repository.baseabstracts.StoreRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.StoreMapperForJpa;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 public class JpaStoreAdapter implements StoreRepository {
 
@@ -17,5 +19,11 @@ public class JpaStoreAdapter implements StoreRepository {
                 = this.jpaStoreRepository.findStoreById(storeId);
 
         return this.storeMapperForJpa.fromStoreForJpaEntityToStoreEntity(storeForJpa);
+    }
+
+    @Override
+    public List<Store> getStores() {
+        return this.jpaStoreRepository.findAll()
+                .stream().map(s -> this.storeMapperForJpa.fromStoreForJpaEntityToStoreEntity(s)).toList();
     }
 }
