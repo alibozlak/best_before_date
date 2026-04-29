@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.repository.implementations.jpa.homepage;
 
+import dev.bozlak.bbd.dtos.homepage.HomePageWholeList;
 import dev.bozlak.bbd.repository.baseabstracts.HomePageRepository;
 import dev.bozlak.bbd.utilities.dtos.BbdListItemForRemovalDateSection;
 import dev.bozlak.bbd.utilities.dtos.RemovalDateSection;
@@ -18,17 +19,19 @@ public class JpaHomePageRepositoryAdapter implements HomePageRepository {
     private final JpaHomePageRepository jpaHomePageRepository;
 
     @Override
-    public List<RemovalDateSection> getCurrentBbdList(Integer storeId) {
-        LocalDate today = LocalDate.now();
+    public HomePageWholeList getCurrentBbdList(Integer storeId) {
         List<RemovalDateSectionForSql> listOfRemovalDateSectionForSql
-                = this.jpaHomePageRepository.getCurrentBbdList(today, storeId);
+                = this.jpaHomePageRepository.getCurrentBbdList(storeId);
 
-        List<RemovalDateSection> listForHomePage = new ArrayList<>(listOfRemovalDateSectionForSql.size());
+        List<RemovalDateSection> listForHomePage = new ArrayList<>();
+        List<BbdListItemForRemovalDateSection> bestBeforeDatePastList = new ArrayList<>();
         Set<LocalDate> removalDates = new HashSet<>();
 
         //FixMe
         listOfRemovalDateSectionForSql.forEach(rdsfs -> {
-            if (removalDates.contains(rdsfs.getRemovalDate())){
+            if (rdsfs.getBestBeforeDate().isBefore(LocalDate.now())){
+                this.addBbdToBbdListItemForRemovalDateSectionList(bestBeforeDatePastList, rdsfs);
+            } else if (removalDates.contains(rdsfs.getRemovalDate())){
                 RemovalDateSection removalDateSection
                         = listForHomePage.stream().filter(rds ->
                             rds.getRemovalDate().equals(rdsfs.getRemovalDate())).findFirst().get();
@@ -45,13 +48,22 @@ public class JpaHomePageRepositoryAdapter implements HomePageRepository {
             }
         });
 
-        return listForHomePage;
+        return new HomePageWholeList(bestBeforeDatePastList, listForHomePage);
     }
 
     private void addBbdToRemovalDateSection(
             RemovalDateSectionForSql removalDateSectionForSql, RemovalDateSection removalDateSection
     ){
-        removalDateSection.getProductElementForRemovalDateSections().add(new BbdListItemForRemovalDateSection(
+        this.addBbdToBbdListItemForRemovalDateSectionList(
+                removalDateSection.getProductElementForRemovalDateSections(), removalDateSectionForSql
+        );
+    }
+
+    private void addBbdToBbdListItemForRemovalDateSectionList(
+            List<BbdListItemForRemovalDateSection> listOfBbdListItemForRemovalDateSection,
+            RemovalDateSectionForSql removalDateSectionForSql
+    ){
+        listOfBbdListItemForRemovalDateSection.add(new BbdListItemForRemovalDateSection(
                 removalDateSectionForSql.getBbdRecordId(),
                 removalDateSectionForSql.getProductCode(),
                 removalDateSectionForSql.getProductName(),

@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
+import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.repository.implementations.jpa.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,12 @@ public interface JpaUserRepository extends JpaRepository<User, Integer> {
 
     @Query("FROM User u WHERE u.userName = :username")
     Optional<User> findByUserName(@Param("username") String username);
+
+    @Query("SELECT new dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto(" +
+            "u.store.id, " +
+            "u.store.storeName, " +
+            "u.store.storeCode" +
+            ") FROM User u " +
+            "WHERE u.id = :userId")
+    HomePageStoreResponseDto getHomePageStoreResponseDto(@Param("userId") Integer userId);
 }

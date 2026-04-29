@@ -1,10 +1,8 @@
 package dev.bozlak.bbd.service.concretes.bbdrecord;
 
 import dev.bozlak.bbd.dtos.bbdrecord.modelsforbackend.BbdRecordIdAndQuantityModel;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.DeleteBbdRecordRequestDto;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.SaleProductRequestDto;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.UpdateBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.*;
+import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdPastComponentReponseDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdRecordWithoutRemovalDateResponse;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.EditBbdRecordPageResponseDto;
 import dev.bozlak.bbd.dtos.forupdatebbdrecordpage.UpdateBbdRecordPageResponseDto;
@@ -110,6 +108,22 @@ public class BbdRecordManager implements BbdRecordService {
         }
 
         return false;
+    }
+
+    @Override
+    public BbdPastComponentReponseDto getBbdPastComponentResponseDto(Long bbdRecordId) {
+        return this.bbdRecordRepository.getBbdPastComponentResponseDto(bbdRecordId);
+    }
+
+    @Override
+    @Transactional
+    public void doOperationBbdPastComponentRequestDto(BbdPastComponentRequestDto bbdPastComponentRequestDto) {
+        this.bbdRecordRepository.setQuantityColumnZeroInBbdListTable(bbdPastComponentRequestDto.getBbdRecordId());
+
+        UserActivity userActivity = this.userActivityMapper
+                .toUserActivityFromBbdPastComponentRequestDto(bbdPastComponentRequestDto);
+        userActivity.setAddedDateTime(LocalDateTime.now());
+        this.userActivityService.add(userActivity);
     }
 
     private BbdRecord utilMethodForAddAndUpdateBbdRecord(AddBbdRecordRequestDto addBbdRecordRequestDto){

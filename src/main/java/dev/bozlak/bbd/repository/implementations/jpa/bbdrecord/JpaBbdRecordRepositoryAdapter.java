@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.repository.implementations.jpa.bbdrecord;
 
 import dev.bozlak.bbd.dtos.bbdrecord.modelsforbackend.BbdRecordIdAndQuantityModel;
+import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdPastComponentReponseDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdRecordWithoutRemovalDateResponse;
 import dev.bozlak.bbd.entities.BbdRecord;
 import dev.bozlak.bbd.repository.baseabstracts.BbdRecordRepository;
@@ -41,6 +42,16 @@ public class JpaBbdRecordRepositoryAdapter implements BbdRecordRepository {
     public Boolean deleteBbdRecordById(Long bbdRecordId) {
         this.jpaBbdRecordRepository.setQuantityColumnZeroInBbdRecordsTable(bbdRecordId);
         return true;
+    }
+
+    @Override
+    public BbdPastComponentReponseDto getBbdPastComponentResponseDto(Long bbdRecordId) {
+        return this.jpaBbdRecordRepository.getBbdPastComponentResponseDto(bbdRecordId);
+    }
+
+    @Override
+    public void setQuantityColumnZeroInBbdListTable(Long bbdRecordId) {
+        this.jpaBbdRecordRepository.setQuantityColumnZeroInBbdRecordsTable(bbdRecordId);
     }
 
     private Long saveOrUpdateBbdRecord(BbdRecord bbdRecord){

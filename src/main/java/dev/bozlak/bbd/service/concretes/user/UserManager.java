@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.service.concretes.user;
 
+import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
@@ -46,5 +47,10 @@ public class UserManager implements UserService {
     @Override
     public Integer getStoreIdByUserId(Integer userId) {
         return this.userRepository.findStoreIdByUserId(userId);
+    }
+
+    @Override
+    public HomePageStoreResponseDto getHomePageStoreResponseDto(Integer userId) {
+        return this.userRepository.getHomePageStoreResponseDto(userId);
     }
 }

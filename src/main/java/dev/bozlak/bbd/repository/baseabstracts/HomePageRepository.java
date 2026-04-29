@@ -1,10 +1,8 @@
 package dev.bozlak.bbd.repository.baseabstracts;
 
-import dev.bozlak.bbd.utilities.dtos.RemovalDateSection;
-
-import java.util.List;
+import dev.bozlak.bbd.dtos.homepage.HomePageWholeList;
 
 public interface HomePageRepository {
 
-    List<RemovalDateSection> getCurrentBbdList(Integer storeId);
+    HomePageWholeList getCurrentBbdList(Integer storeId);
 }

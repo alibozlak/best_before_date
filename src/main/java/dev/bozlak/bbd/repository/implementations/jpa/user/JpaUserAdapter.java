@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
+import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.UserMapperForJpa;
@@ -46,5 +47,10 @@ public class JpaUserAdapter implements UserRepository {
     @Override
     public boolean existsById(Integer userId) {
         return this.jpaUserRepository.existsById(userId);
+    }
+
+    @Override
+    public HomePageStoreResponseDto getHomePageStoreResponseDto(Integer userId) {
+        return this.jpaUserRepository.getHomePageStoreResponseDto(userId);
     }
 }

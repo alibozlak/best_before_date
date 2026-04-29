@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.repository.implementations.jpa.bbdrecord;
 
+import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdPastComponentReponseDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdRecordWithoutRemovalDateResponse;
 import dev.bozlak.bbd.repository.implementations.jpa.entities.BbdRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,13 @@ public interface JpaBbdRecordRepository extends JpaRepository<BbdRecord, Long> {
     @Modifying(clearAutomatically = true)
     @Query("UPDATE BbdRecord bbd SET bbd.quantity = 0 WHERE bbd.id = :bbdRecordId")
     void setQuantityColumnZeroInBbdRecordsTable(@Param("bbdRecordId") Long bbdRecordId);
+
+    @Query("SELECT new dev.bozlak.bbd.dtos.bbdrecord.responses.BbdPastComponentReponseDto(" +
+            "bbd.id, " +
+            "bbd.product.productName, " +
+            "bbd.product.productCode, " +
+            "bbd.quantity, " +
+            "bbd.bestBeforeDate" +
+            ") FROM BbdRecord bbd WHERE bbd.id = :bbdRecordId")
+    BbdPastComponentReponseDto getBbdPastComponentResponseDto(@Param("bbdRecordId") Long bbdRecordId);
 }

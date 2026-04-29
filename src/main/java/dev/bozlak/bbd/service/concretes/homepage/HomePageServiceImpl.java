@@ -1,5 +1,8 @@
 package dev.bozlak.bbd.service.concretes.homepage;
 
+import dev.bozlak.bbd.dtos.homepage.HomePageResponseDto;
+import dev.bozlak.bbd.dtos.homepage.HomePageWholeList;
+import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.repository.baseabstracts.HomePageRepository;
 import dev.bozlak.bbd.service.abstracts.HomePageService;
 import dev.bozlak.bbd.service.abstracts.UserService;
@@ -14,16 +17,15 @@ public class HomePageServiceImpl implements HomePageService {
     private final HomePageRepository homePageRepository;
     private final UserService userService;
 
-    @Override
-    public List<RemovalDateSection> getCurrentAndSortedBbdList(Integer userId) {
-        List<RemovalDateSection> removalDateSections
+    private HomePageWholeList getCurrentAndSortedBbdList(Integer userId) {
+        HomePageWholeList homePageWholeList
                 = this.homePageRepository.getCurrentBbdList(this.userService.getStoreIdByUserId(userId));
 
-        for(RemovalDateSection removalDateSection : removalDateSections){
+        for(RemovalDateSection removalDateSection : homePageWholeList.getRemovalDateSectionList()){
             this.sortEachRemovalDateSection(removalDateSection);
         }
 
-        return removalDateSections;
+        return homePageWholeList;
     }
 
     private void sortEachRemovalDateSection(RemovalDateSection removalDateSection){
@@ -31,5 +33,15 @@ public class HomePageServiceImpl implements HomePageService {
                 .sort((o1, o2) ->
                         (int) (o1.getAffectInventory() - o2.getAffectInventory())
                 );
+    }
+
+    @Override
+    public HomePageResponseDto getHomePageResponseDto(Integer userId) {
+        HomePageStoreResponseDto homePageStoreResponseDto
+                = this.userService.getHomePageStoreResponseDto(userId);
+
+        HomePageWholeList homePageWholeList = this.getCurrentAndSortedBbdList(userId);
+
+        return new HomePageResponseDto(homePageStoreResponseDto, homePageWholeList);
     }
 }

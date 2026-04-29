@@ -1,5 +1,6 @@
 package dev.bozlak.bbd.repository.baseabstracts;
 
+import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.entities.User;
 
 import java.util.Optional;
@@ -18,4 +19,6 @@ public interface UserRepository {
     void add(User user);
 
     boolean existsById(Integer userId);
+
+    HomePageStoreResponseDto getHomePageStoreResponseDto(Integer userId);
 }

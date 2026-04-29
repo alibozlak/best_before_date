@@ -1,9 +1,7 @@
 package dev.bozlak.bbd.api;
 
-import dev.bozlak.bbd.dtos.bbdrecord.requests.AddBbdRecordRequestDto;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.DeleteBbdRecordRequestDto;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.SaleProductRequestDto;
-import dev.bozlak.bbd.dtos.bbdrecord.requests.UpdateBbdRecordRequestDto;
+import dev.bozlak.bbd.dtos.bbdrecord.requests.*;
+import dev.bozlak.bbd.dtos.bbdrecord.responses.BbdPastComponentReponseDto;
 import dev.bozlak.bbd.dtos.bbdrecord.responses.EditBbdRecordPageResponseDto;
 import dev.bozlak.bbd.dtos.forupdatebbdrecordpage.UpdateBbdRecordPageResponseDto;
 import dev.bozlak.bbd.service.abstracts.BbdRecordService;
@@ -53,11 +51,26 @@ public class BbdRecordController {
         return new ResponseBodyWithObject<>(this.bbdRecordService.updateBbdRecord(updateBbdRecordRequestDto));
     }
 
-    @DeleteMapping
+    @PutMapping("/soft-delete")
     public ResponseBody deleteBbdRecordById(
             @RequestBody DeleteBbdRecordRequestDto deleteBbdRecordRequestDto
     ){
         this.bbdRecordService.deleteBbdRecordById(deleteBbdRecordRequestDto);
+        return new ResponseBody(true);
+    }
+
+    @GetMapping("/get-bbd-past-record-dto/{bbdRecordId}")
+    public ResponseBodyWithObject<BbdPastComponentReponseDto> getBbdPastComponentResponseDto(
+            @PathVariable("bbdRecordId") Long bbdRecordId
+    ){
+        return new ResponseBodyWithObject<>(this.bbdRecordService.getBbdPastComponentResponseDto(bbdRecordId));
+    }
+
+    @PutMapping("/update-for-bbd-past")
+    public ResponseBody doOperationBbdPastComponentRequestDto(
+            @RequestBody BbdPastComponentRequestDto bbdPastComponentRequestDto
+    ){
+        this.bbdRecordService.doOperationBbdPastComponentRequestDto(bbdPastComponentRequestDto);
         return new ResponseBody(true);
     }
 }
