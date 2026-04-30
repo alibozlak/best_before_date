@@ -1,7 +1,7 @@
 package dev.bozlak.bbd.dtos.homepage;
 
-import dev.bozlak.bbd.utilities.dtos.BbdListItemForRemovalDateSection;
-import dev.bozlak.bbd.utilities.dtos.RemovalDateSection;
+import dev.bozlak.bbd.utilities.models.BbdListItemForRemovalDateSection;
+import dev.bozlak.bbd.utilities.models.RemovalDateSection;
 import dev.bozlak.core.entity.Dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

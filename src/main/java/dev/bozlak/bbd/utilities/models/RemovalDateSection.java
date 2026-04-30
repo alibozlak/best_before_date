@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.utilities.dtos;
+package dev.bozlak.bbd.utilities.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,28 +1,23 @@
 package dev.bozlak.bbd.dtos.bbdrecord.requests;
 
-import dev.bozlak.core.entity.Dto;
+import dev.bozlak.bbd.utilities.models.useractivity.AddUserActivityModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public class SaleProductRequestDto extends Dto {
-    private Long bbdRecordId;
+public class SaleProductRequestDto extends AddUserActivityModel {
+
     private Short newQuantity;
-    private Short saledQuantity;
-    private Integer userId;
-    private Byte activityTypeId;
 
     @Override
     public String toString() {
-        return "{bbdRecordId : " + bbdRecordId +
-                ", userId : " + userId +
+        return "{bbdRecordId : " + this.getBbdRecordId() +
+                ", userId : " + this.getUserId() +
                 ", newQuantity : " + newQuantity +
-                ", saledQuantity : " + saledQuantity +
-                ", activityTypeId : " + activityTypeId + "}";
+                ", saledQuantity : " + this.getQuantity() +
+                ", activityTypeId : " + this.getActivityTypeId() + "}";
     }
 }

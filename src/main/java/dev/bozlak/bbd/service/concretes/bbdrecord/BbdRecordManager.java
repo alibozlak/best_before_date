@@ -16,6 +16,7 @@ import dev.bozlak.bbd.service.abstracts.UserActivityService;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.mappers.BbdRecordMapper;
 import dev.bozlak.bbd.utilities.mappers.UserActivityMapper;
+import dev.bozlak.bbd.utilities.models.useractivity.AddUserActivityModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,10 @@ public class BbdRecordManager implements BbdRecordService {
         BbdRecord bbdRecord = this.utilMethodForAddAndUpdateBbdRecord(addBbdRecordRequestDto);
         Long returnedBbdRecordId = this.bbdRecordRepository.save(bbdRecord);
 
-        this.addUserActivityForAddingAndUpdatingBbdRecord(addBbdRecordRequestDto, returnedBbdRecordId);
+        AddUserActivityModel addUserActivityModel = this.userActivityMapper
+                .toAddUserActivityModelFromAddBbdRecordRequestDto(addBbdRecordRequestDto);
+        addUserActivityModel.setBbdRecordId(returnedBbdRecordId);
+        this.addUserActivity(addUserActivityModel);
     }
 
     @Override
@@ -63,10 +67,7 @@ public class BbdRecordManager implements BbdRecordService {
                 )
         );
 
-        UserActivity userActivity = this.userActivityMapper
-                .toUserActivityFromSaleProductRequestDto(saleProductRequestDto);
-        userActivity.setAddedDateTime(LocalDateTime.now());
-        this.userActivityService.add(userActivity);
+        this.addUserActivity(saleProductRequestDto);
     }
 
     @Override
@@ -90,7 +91,9 @@ public class BbdRecordManager implements BbdRecordService {
         bbdRecord.setId(updateBbdRecordRequestDto.getBbdRecordId());
         Long returnedBbdRecordId = this.bbdRecordRepository.updateBbdRecord(bbdRecord);
 
-        this.addUserActivityForAddingAndUpdatingBbdRecord(updateBbdRecordRequestDto, returnedBbdRecordId);
+        AddUserActivityModel addUserActivityModel = this.userActivityMapper
+                .toAddUserActivityModelFromUpdateBbdRecordRequestDto(updateBbdRecordRequestDto);
+        this.addUserActivity(addUserActivityModel);
 
         return returnedBbdRecordId;
     }
@@ -100,10 +103,7 @@ public class BbdRecordManager implements BbdRecordService {
     public Boolean deleteBbdRecordById(DeleteBbdRecordRequestDto deleteBbdRecordRequestDto) {
 
         if (this.bbdRecordRepository.deleteBbdRecordById(deleteBbdRecordRequestDto.getBbdRecordId())){
-            UserActivity userActivity =
-                    this.userActivityMapper.toUserActivityFromDeleteBbdRecordRequestDto(deleteBbdRecordRequestDto);
-            userActivity.setAddedDateTime(LocalDateTime.now());
-            this.userActivityService.add(userActivity);
+            this.addUserActivity(deleteBbdRecordRequestDto);
             return true;
         }
 
@@ -120,10 +120,7 @@ public class BbdRecordManager implements BbdRecordService {
     public void doOperationBbdPastComponentRequestDto(BbdPastComponentRequestDto bbdPastComponentRequestDto) {
         this.bbdRecordRepository.setQuantityColumnZeroInBbdListTable(bbdPastComponentRequestDto.getBbdRecordId());
 
-        UserActivity userActivity = this.userActivityMapper
-                .toUserActivityFromBbdPastComponentRequestDto(bbdPastComponentRequestDto);
-        userActivity.setAddedDateTime(LocalDateTime.now());
-        this.userActivityService.add(userActivity);
+        this.addUserActivity(bbdPastComponentRequestDto);
     }
 
     private BbdRecord utilMethodForAddAndUpdateBbdRecord(AddBbdRecordRequestDto addBbdRecordRequestDto){
@@ -143,13 +140,11 @@ public class BbdRecordManager implements BbdRecordService {
         return bbdRecord;
     }
 
-    private void addUserActivityForAddingAndUpdatingBbdRecord(
-            AddBbdRecordRequestDto addBbdRecordRequestDto, Long returnedBbdRecordId
-    ){
+    private void addUserActivity(AddUserActivityModel addUserActivityModel){
         UserActivity userActivity = this.userActivityMapper
-                .toUserActivityFromAddBbdRecordRequestDto(addBbdRecordRequestDto);
+                .toUserActivityFromAddUserActivityModel(addUserActivityModel);
+
         userActivity.setAddedDateTime(LocalDateTime.now());
-        userActivity.setBbdRecordId(returnedBbdRecordId);
         this.userActivityService.add(userActivity);
     }
 }

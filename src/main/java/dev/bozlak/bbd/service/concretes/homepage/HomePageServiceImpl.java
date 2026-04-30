@@ -6,10 +6,8 @@ import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.repository.baseabstracts.HomePageRepository;
 import dev.bozlak.bbd.service.abstracts.HomePageService;
 import dev.bozlak.bbd.service.abstracts.UserService;
-import dev.bozlak.bbd.utilities.dtos.RemovalDateSection;
+import dev.bozlak.bbd.utilities.models.RemovalDateSection;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 public class HomePageServiceImpl implements HomePageService {

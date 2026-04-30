@@ -2,8 +2,8 @@ package dev.bozlak.bbd.repository.implementations.jpa.homepage;
 
 import dev.bozlak.bbd.dtos.homepage.HomePageWholeList;
 import dev.bozlak.bbd.repository.baseabstracts.HomePageRepository;
-import dev.bozlak.bbd.utilities.dtos.BbdListItemForRemovalDateSection;
-import dev.bozlak.bbd.utilities.dtos.RemovalDateSection;
+import dev.bozlak.bbd.utilities.models.BbdListItemForRemovalDateSection;
+import dev.bozlak.bbd.utilities.models.RemovalDateSection;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.RemovalDateSectionForSql;
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package dev.bozlak.bbd.dtos.bbdrecord.requests;
+package dev.bozlak.bbd.utilities.models.useractivity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateBbdRecordRequestDto extends AddBbdRecordRequestDto {
+public class AddUserActivityModel {
 
+    private Integer userId;
     private Long bbdRecordId;
+    private Short quantity;
+    private Byte activityTypeId;
 }
