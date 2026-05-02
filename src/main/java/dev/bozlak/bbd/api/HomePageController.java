@@ -18,11 +18,8 @@ public class HomePageController {
 
     @GetMapping("/get-whole-data-for-home-page/{userId}")
     public ResponseBodyWithObject<HomePageResponseDto> getBbdListByUserId(@PathVariable("userId") Integer userId){
-        return new ResponseBodyWithObject<>(this.homePageService.getHomePageResponseDto(userId));
+        HomePageResponseDto homePageResponseDto = this.homePageService.getHomePageResponseDto(userId);
+        return new ResponseBodyWithObject<>(homePageResponseDto);
     }
 
-//    @GetMapping("/get-bbd-list-by-user-id/{userId}")
-//    public ResponseBodyWithObject<List<RemovalDateSection>> getBbdListByUserId(@PathVariable("userId") Integer userId) {
-//        return new ResponseBodyWithObject<>(this.homePageService.getCurrentAndSortedBbdList(userId));
-//    }
 }

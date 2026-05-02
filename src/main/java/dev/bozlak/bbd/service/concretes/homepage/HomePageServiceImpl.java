@@ -1,9 +1,11 @@
 package dev.bozlak.bbd.service.concretes.homepage;
 
+import dev.bozlak.bbd.dtos.homepage.HomePageHasStoreUserResponseDto;
 import dev.bozlak.bbd.dtos.homepage.HomePageResponseDto;
 import dev.bozlak.bbd.dtos.homepage.HomePageWholeList;
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.repository.baseabstracts.HomePageRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
 import dev.bozlak.bbd.service.abstracts.HomePageService;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.bbd.utilities.models.RemovalDateSection;
@@ -35,11 +37,25 @@ public class HomePageServiceImpl implements HomePageService {
 
     @Override
     public HomePageResponseDto getHomePageResponseDto(Integer userId) {
-        HomePageStoreResponseDto homePageStoreResponseDto
-                = this.userService.getHomePageStoreResponseDto(userId);
+        UserIdStoreAndIsAdminModel userIdStoreAndIsAdminModel
+                = this.userService.getUserIdStoreAndIsAdminModel(userId);
+        Integer storeId = userIdStoreAndIsAdminModel.getStore().getId();
 
-        HomePageWholeList homePageWholeList = this.getCurrentAndSortedBbdList(userId);
+        if (storeId != 2 && storeId != 3) {
+            HomePageStoreResponseDto homePageStoreResponseDto
+                    = this.userService.getHomePageStoreResponseDto(userId);
 
-        return new HomePageResponseDto(homePageStoreResponseDto, homePageWholeList);
+            HomePageWholeList homePageWholeList = this.getCurrentAndSortedBbdList(userId);
+
+            HomePageHasStoreUserResponseDto homePageHasStoreUserResponseDto
+                    = new HomePageHasStoreUserResponseDto(homePageStoreResponseDto, homePageWholeList);
+            homePageHasStoreUserResponseDto.setUserId(userIdStoreAndIsAdminModel.getUserId());
+            homePageHasStoreUserResponseDto.setIsAdmin(userIdStoreAndIsAdminModel.getIsAdmin());
+            homePageHasStoreUserResponseDto.setHasStore(true);
+            return homePageHasStoreUserResponseDto;
+        }
+
+        return new HomePageResponseDto(userId, false, userIdStoreAndIsAdminModel.getIsAdmin());
+
     }
 }

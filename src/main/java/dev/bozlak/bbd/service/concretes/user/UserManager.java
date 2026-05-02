@@ -2,13 +2,18 @@ package dev.bozlak.bbd.service.concretes.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
+import dev.bozlak.bbd.dtos.user.ChangePasswordRequestDto;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
+import dev.bozlak.bbd.service.abstracts.UserHimselfActivityService;
 import dev.bozlak.bbd.service.abstracts.UserService;
-import dev.bozlak.bbd.utilities.exceptions.user.UserNotFoundException;
+import dev.bozlak.bbd.utilities.exceptions.user.UserPasswordIncorrectException;
 import dev.bozlak.bbd.utilities.mappers.UserMapper;
+import dev.bozlak.bbd.utilities.models.userhimselactivity.AddUserHimselfActivityModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 public class UserManager implements UserService {
@@ -16,6 +21,7 @@ public class UserManager implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserHimselfActivityService userHimselfActivityService;
 
     @Override
     public void add(AddUserRequestDto addUserRequestDto) {
@@ -23,20 +29,6 @@ public class UserManager implements UserService {
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
         this.userRepository.add(user);
-    }
-
-    @Override
-    public boolean doesExistUserIdGivenNumber(Integer userId) {
-        return this.userRepository.existsById(userId);
-    }
-
-    @Override
-    public void deleteUserById(Integer id) {
-        if (this.doesExistUserIdGivenNumber(id)){
-            this.userRepository.deleteById(id);
-        } else {
-            throw new UserNotFoundException(id);
-        }
     }
 
     @Override
@@ -50,7 +42,37 @@ public class UserManager implements UserService {
     }
 
     @Override
+    public UserIdStoreAndIsAdminModel getUserIdStoreAndIsAdminModel(Integer userId) {
+        return this.userRepository.getUserIdStoreAndIsAdminModel(userId);
+    }
+
+    @Override
     public HomePageStoreResponseDto getHomePageStoreResponseDto(Integer userId) {
         return this.userRepository.getHomePageStoreResponseDto(userId);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(ChangePasswordRequestDto changePasswordRequestDto) {
+        String previousHashedPassword = this.userRepository.getHashedPasswordByUserId(
+                changePasswordRequestDto.getUserId()
+        );
+
+        if (this.passwordEncoder.matches(changePasswordRequestDto.getPreviousPassword(), previousHashedPassword)){
+            String newHashedPassword = this.passwordEncoder.encode(changePasswordRequestDto.getNewPassword());
+            this.userRepository.changeUserPassword(changePasswordRequestDto.getUserId(), newHashedPassword);
+
+            this.userHimselfActivityService.add(new AddUserHimselfActivityModel(
+                    changePasswordRequestDto.getUserId(), changePasswordRequestDto.getActivityTypeId()
+            ));
+            return;
+        }
+
+        throw new UserPasswordIncorrectException();
+    }
+
+    @Override
+    public Boolean isUserBbdTracker(Integer userId) {
+        return this.userRepository.isUserBbdTracker(userId);
     }
 }

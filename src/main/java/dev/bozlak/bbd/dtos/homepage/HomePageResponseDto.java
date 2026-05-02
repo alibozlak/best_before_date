@@ -1,18 +1,17 @@
 package dev.bozlak.bbd.dtos.homepage;
 
-import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.core.entity.Dto;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class HomePageResponseDto extends Dto {
 
-    private HomePageStoreResponseDto homePageStoreResponseDto;
-    private HomePageWholeList homePageWholeList;
+    private Integer userId;
+    private Boolean hasStore;
+    private Boolean isAdmin;
+
 }

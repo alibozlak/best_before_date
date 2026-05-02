@@ -25,4 +25,6 @@ public class AddUserRequestDto extends Dto {
     private Boolean isAdmin;
 
     private Boolean isActive;
+
+    private Boolean isBbdTracker;
 }

@@ -16,6 +16,8 @@ import dev.bozlak.bbd.repository.implementations.jpa.user.JpaUserAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.user.JpaUserRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.useractivity.JpaUserActivityRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.useractivity.JpaUserActivityRepositoryAdapter;
+import dev.bozlak.bbd.repository.implementations.jpa.userhimselfactivity.JpaUserHimselfActivityAdapter;
+import dev.bozlak.bbd.repository.implementations.jpa.userhimselfactivity.JpaUserHimselfActivityRepository;
 import dev.bozlak.bbd.service.abstracts.*;
 import dev.bozlak.bbd.service.concretes.activitytype.ActivityTypeManager;
 import dev.bozlak.bbd.service.concretes.bbdrecord.BbdRecordManager;
@@ -24,6 +26,7 @@ import dev.bozlak.bbd.service.concretes.product.ProductManager;
 import dev.bozlak.bbd.service.concretes.store.StoreManager;
 import dev.bozlak.bbd.service.concretes.user.UserManager;
 import dev.bozlak.bbd.service.concretes.useractivity.UserActivityManager;
+import dev.bozlak.bbd.service.concretes.userhimselfactivity.UserHimselfActivityManager;
 import dev.bozlak.bbd.utilities.mappers.UserActivityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -57,6 +60,9 @@ public class IocConfig {
     private final UserActivityMapperForJpa userActivityMapperForJpa;
 
     private final JpaHomePageRepository jpaHomePageRepository;
+
+    private final JpaUserHimselfActivityRepository jpaUserHimselfActivityRepository;
+    private final UserHimselfActivityMapperForJpa userHimselfActivityMapperForJpa;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -101,12 +107,24 @@ public class IocConfig {
         return new JpaHomePageRepositoryAdapter(this.jpaHomePageRepository);
     }
 
+    @Bean
+    public UserHimselfActivityRepository userHimselfActivityRepository(){
+        return new JpaUserHimselfActivityAdapter(
+                this.jpaUserHimselfActivityRepository, this.userHimselfActivityMapperForJpa
+        );
+    }
+
 
     //---------------- Service Layer Beans : --------------------
 
     @Bean
     public UserService userService(){
-        return new UserManager(this.userRepository(), this.userMapper, this.passwordEncoder());
+        return new UserManager(
+                this.userRepository(),
+                this.userMapper,
+                this.passwordEncoder(),
+                this.userHimselfActivityService()
+        );
     }
 
     @Bean
@@ -144,5 +162,10 @@ public class IocConfig {
     @Bean
     public HomePageService homePageService(){
         return new HomePageServiceImpl(this.homePageRepository(), this.userService());
+    }
+
+    @Bean
+    public UserHimselfActivityService userHimselfActivityService(){
+        return new UserHimselfActivityManager(this.userHimselfActivityRepository());
     }
 }

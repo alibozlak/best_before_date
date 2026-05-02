@@ -24,7 +24,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "store_id", nullable = true)
     @ManyToOne
     private Store store;
 
@@ -33,4 +33,6 @@ public class User {
 
     @Column(nullable = false)
     private Boolean isActive;
+
+    private Boolean isBbdTracker;
 }

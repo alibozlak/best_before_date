@@ -17,6 +17,7 @@ public class User extends dev.bozlak.core.entity.Entity {
     private Integer storeId;
     private Boolean isAdmin;
     private Boolean isActive;
+    private Boolean isBbdTracker;
 
     //--------------Constructors-------------
 
