@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
 import dev.bozlak.bbd.repository.implementations.jpa.entities.Store;
 import dev.bozlak.bbd.repository.implementations.jpa.entities.User;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -48,4 +50,15 @@ public interface JpaUserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u.isBbdTracker FROM User u WHERE u.id = :userId")
     Boolean findIsBbdTrackerById(@Param("userId") Integer userId);
+
+    @Query("SELECT new dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto(" +
+            "u.id, " +
+            "u.userName" +
+            ") FROM User u WHERE u.store.id = 3 ORDER BY u.userName")
+    List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList();
+
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE User u SET u.store.id = :storeId WHERE u.id = :userId")
+    void updateStoreToUser(@Param("userId") Integer userId, @Param("storeId") Integer storeId);
+
 }

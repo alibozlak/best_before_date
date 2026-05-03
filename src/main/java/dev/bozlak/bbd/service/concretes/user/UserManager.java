@@ -1,8 +1,10 @@
 package dev.bozlak.bbd.service.concretes.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.AddStoreToUserRequestDto;
 import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
 import dev.bozlak.bbd.dtos.user.ChangePasswordRequestDto;
+import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
@@ -14,6 +16,8 @@ import dev.bozlak.bbd.utilities.models.userhimselactivity.AddUserHimselfActivity
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class UserManager implements UserService {
@@ -74,5 +78,23 @@ public class UserManager implements UserService {
     @Override
     public Boolean isUserBbdTracker(Integer userId) {
         return this.userRepository.isUserBbdTracker(userId);
+    }
+
+    @Override
+    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList() {
+        return this.userRepository.getUserIdAndCodeForAddUserByTrackerResponseDtoList();
+    }
+
+    @Override
+    @Transactional
+    public void addStoreToUser(AddStoreToUserRequestDto addStoreToUserRequestDto) {
+
+        this.userRepository.updateStoreIdToUser(
+                addStoreToUserRequestDto.getUserId(),
+                addStoreToUserRequestDto.getStoreId()
+        );
+
+        //ToDo : must adding to bbd_tracker_himself_activities table!!
+        //..
     }
 }

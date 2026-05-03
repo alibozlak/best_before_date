@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.entities.Store;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
@@ -8,6 +9,7 @@ import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminM
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.UserMapperForJpa;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,10 +20,7 @@ public class JpaUserAdapter implements UserRepository {
 
     @Override
     public UserIdStoreAndIsAdminModel getUserIdStoreAndIsAdminModel(Integer userId) {
-        UserIdStoreAndIsAdminModel userIdStoreAndIsAdminModel
-                = this.jpaUserRepository.getUserIdStoreAndIsAdminModel(userId);
-        //System.out.println(userIdStoreAndIsAdminModel);
-        return userIdStoreAndIsAdminModel;
+        return this.jpaUserRepository.getUserIdStoreAndIsAdminModel(userId);
     }
 
     @Override
@@ -77,5 +76,15 @@ public class JpaUserAdapter implements UserRepository {
     @Override
     public Boolean isUserBbdTracker(Integer userId) {
         return this.jpaUserRepository.findIsBbdTrackerById(userId);
+    }
+
+    @Override
+    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList() {
+        return this.jpaUserRepository.getUserIdAndCodeForAddUserByTrackerResponseDtoList();
+    }
+
+    @Override
+    public void updateStoreIdToUser(Integer userId, Integer storeId) {
+        this.jpaUserRepository.updateStoreToUser(userId, storeId);
     }
 }
