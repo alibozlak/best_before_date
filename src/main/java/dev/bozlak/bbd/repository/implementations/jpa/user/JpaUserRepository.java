@@ -3,7 +3,6 @@ package dev.bozlak.bbd.repository.implementations.jpa.user;
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
 import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
-import dev.bozlak.bbd.repository.implementations.jpa.entities.Store;
 import dev.bozlak.bbd.repository.implementations.jpa.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -54,11 +53,23 @@ public interface JpaUserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT new dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto(" +
             "u.id, " +
             "u.userName" +
-            ") FROM User u WHERE u.store.id = 3 ORDER BY u.userName")
-    List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList();
+            ") FROM User u WHERE u.store.id = :numberOfStoreIdForUserDoesntHaveStore" +
+            " ORDER BY u.userName")
+    List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            @Param("numberOfStoreIdForUserDoesntHaveStore") Integer numberOfStoreIdForUserDoesntHaveStore
+    );
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE User u SET u.store.id = :storeId WHERE u.id = :userId")
     void updateStoreToUser(@Param("userId") Integer userId, @Param("storeId") Integer storeId);
+
+    @Query("SELECT new dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto(" +
+            "u.id, " +
+            "u.userName" +
+            ") FROM User u WHERE u.store.id = :storeId AND u.id <> :userId" +
+            " ORDER BY u.userName")
+    List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            @Param("storeId") Integer storeId, @Param("userId") Integer userId
+    );
 
 }

@@ -1,10 +1,7 @@
 package dev.bozlak.bbd.service.concretes.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
-import dev.bozlak.bbd.dtos.user.AddStoreToUserRequestDto;
-import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
-import dev.bozlak.bbd.dtos.user.ChangePasswordRequestDto;
-import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
+import dev.bozlak.bbd.dtos.user.*;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
@@ -93,6 +90,23 @@ public class UserManager implements UserService {
                 addStoreToUserRequestDto.getUserId(),
                 addStoreToUserRequestDto.getStoreId()
         );
+
+        //ToDo : must adding to bbd_tracker_himself_activities table!!
+        //..
+    }
+
+    @Override
+    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            RequestDtoForListCoworkers requestDtoForListCoworkers
+    ) {
+        return this.userRepository.getUserIdAndCodeForAddUserByTrackerResponseDtoList(requestDtoForListCoworkers);
+    }
+
+    @Override
+    @Transactional
+    public void removeUserFromStoreByBbdTracker(AddStoreToUserRequestDto addStoreToUserRequestDto) {
+
+        this.userRepository.removeUserFromStoreByBbdTracker(addStoreToUserRequestDto.getUserId());
 
         //ToDo : must adding to bbd_tracker_himself_activities table!!
         //..

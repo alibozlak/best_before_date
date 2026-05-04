@@ -1,9 +1,6 @@
 package dev.bozlak.bbd.api;
 
-import dev.bozlak.bbd.dtos.user.AddStoreToUserRequestDto;
-import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
-import dev.bozlak.bbd.dtos.user.ChangePasswordRequestDto;
-import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
+import dev.bozlak.bbd.dtos.user.*;
 import dev.bozlak.bbd.service.abstracts.UserService;
 import dev.bozlak.core.responses.ResponseBody;
 import dev.bozlak.core.responses.ResponseBodyWithObject;
@@ -52,6 +49,19 @@ public class UserController {
     @PutMapping("/add-store-to-user-by-bbd-tracker")
     public ResponseBody addStoreToUserByBbdTracker(@RequestBody AddStoreToUserRequestDto addStoreToUserRequestDto){
         this.userService.addStoreToUser(addStoreToUserRequestDto);
+        return new ResponseBody(true);
+    }
+
+    @PostMapping("/get-user-id-and-code-list-without-himself")
+    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            @RequestBody RequestDtoForListCoworkers requestDtoForListCoworkers
+    ){
+        return this.userService.getUserIdAndCodeForAddUserByTrackerResponseDtoList(requestDtoForListCoworkers);
+    }
+
+    @PutMapping("/remove-user-from-store-by-bbd-tracker")
+    public ResponseBody removeUserFromStoreByBbdTracker(@RequestBody AddStoreToUserRequestDto addStoreToUserRequestDto){
+        this.userService.removeUserFromStoreByBbdTracker(addStoreToUserRequestDto);
         return new ResponseBody(true);
     }
 }

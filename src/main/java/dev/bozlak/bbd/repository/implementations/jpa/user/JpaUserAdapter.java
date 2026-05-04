@@ -1,12 +1,13 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.RequestDtoForListCoworkers;
 import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
-import dev.bozlak.bbd.entities.Store;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.UserMapperForJpa;
+import dev.bozlak.bbd.utilities.ProjectConstants;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -42,20 +43,10 @@ public class JpaUserAdapter implements UserRepository {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        this.jpaUserRepository.deleteById(id);
-    }
-
-    @Override
     public void add(User user) {
         dev.bozlak.bbd.repository.implementations.jpa.entities.User userForJpa
                 = this.userMapperForJpa.fromCoreUserToJpaUser(user);
         this.jpaUserRepository.save(userForJpa);
-    }
-
-    @Override
-    public boolean existsById(Integer userId) {
-        return this.jpaUserRepository.existsById(userId);
     }
 
     @Override
@@ -80,11 +71,27 @@ public class JpaUserAdapter implements UserRepository {
 
     @Override
     public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList() {
-        return this.jpaUserRepository.getUserIdAndCodeForAddUserByTrackerResponseDtoList();
+        return this.jpaUserRepository.getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+                ProjectConstants.Store.USER_DOESNT_HAVE_STORE_ID
+        );
     }
 
     @Override
     public void updateStoreIdToUser(Integer userId, Integer storeId) {
         this.jpaUserRepository.updateStoreToUser(userId, storeId);
+    }
+
+    @Override
+    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            RequestDtoForListCoworkers requestDtoForListCoworkers
+    ) {
+        return this.jpaUserRepository.getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+                requestDtoForListCoworkers.getStoreId(), requestDtoForListCoworkers.getUserId()
+        );
+    }
+
+    @Override
+    public void removeUserFromStoreByBbdTracker(Integer userId) {
+        this.jpaUserRepository.updateStoreToUser(userId, ProjectConstants.Store.USER_DOESNT_HAVE_STORE_ID);
     }
 }

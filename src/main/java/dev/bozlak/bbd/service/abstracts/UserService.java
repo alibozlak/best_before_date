@@ -1,10 +1,7 @@
 package dev.bozlak.bbd.service.abstracts;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
-import dev.bozlak.bbd.dtos.user.AddStoreToUserRequestDto;
-import dev.bozlak.bbd.dtos.user.AddUserRequestDto;
-import dev.bozlak.bbd.dtos.user.ChangePasswordRequestDto;
-import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
+import dev.bozlak.bbd.dtos.user.*;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
 
 import java.util.List;
@@ -20,4 +17,10 @@ public interface UserService {
     Boolean isUserBbdTracker(Integer userId);
     List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList();
     void addStoreToUser(AddStoreToUserRequestDto addStoreToUserRequestDto);
+
+    List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            RequestDtoForListCoworkers requestDtoForListCoworkers
+    );
+
+    void removeUserFromStoreByBbdTracker(AddStoreToUserRequestDto addStoreToUserRequestDto);
 }

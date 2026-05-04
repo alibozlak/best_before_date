@@ -1,9 +1,11 @@
 package dev.bozlak.bbd.repository.baseabstracts;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.RequestDtoForListCoworkers;
 import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.entities.User;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +21,7 @@ public interface UserRepository {
 
     Integer findStoreIdByUserId(Integer userId);
 
-    void deleteById(Integer id);
-
     void add(User user);
-
-    boolean existsById(Integer userId);
 
     HomePageStoreResponseDto getHomePageStoreResponseDto(Integer userId);
 
@@ -36,4 +34,10 @@ public interface UserRepository {
     List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList();
 
     void updateStoreIdToUser(Integer userId, Integer storeId);
+
+    List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+            RequestDtoForListCoworkers requestDtoForListCoworkers
+    );
+
+    void removeUserFromStoreByBbdTracker(Integer userId);
 }
