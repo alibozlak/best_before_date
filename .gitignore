@@ -36,3 +36,6 @@ build/
 .env
 
 /libs/core-1.0.2.jar
+
+### Logs ###
+logs/
