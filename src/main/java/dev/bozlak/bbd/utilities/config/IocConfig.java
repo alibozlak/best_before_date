@@ -10,6 +10,8 @@ import dev.bozlak.bbd.repository.implementations.jpa.homepage.JpaHomePageReposit
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.*;
 import dev.bozlak.bbd.repository.implementations.jpa.product.JpaProductAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.product.JpaProductRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.productlog.JpaProductLogRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.productlog.JpaProductLogRepositoryAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.store.JpaStoreAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.store.JpaStoreRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.user.JpaUserAdapter;
@@ -23,10 +25,12 @@ import dev.bozlak.bbd.service.concretes.activitytype.ActivityTypeManager;
 import dev.bozlak.bbd.service.concretes.bbdrecord.BbdRecordManager;
 import dev.bozlak.bbd.service.concretes.homepage.HomePageServiceImpl;
 import dev.bozlak.bbd.service.concretes.product.ProductManager;
+import dev.bozlak.bbd.service.concretes.productlog.ProductLogManager;
 import dev.bozlak.bbd.service.concretes.store.StoreManager;
 import dev.bozlak.bbd.service.concretes.user.UserManager;
 import dev.bozlak.bbd.service.concretes.useractivity.UserActivityManager;
 import dev.bozlak.bbd.service.concretes.userhimselfactivity.UserHimselfActivityManager;
+import dev.bozlak.bbd.utilities.mappers.ProductLogMapperForServiceLayer;
 import dev.bozlak.bbd.utilities.mappers.UserActivityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -63,6 +67,10 @@ public class IocConfig {
 
     private final JpaUserHimselfActivityRepository jpaUserHimselfActivityRepository;
     private final UserHimselfActivityMapperForJpa userHimselfActivityMapperForJpa;
+
+    private final JpaProductLogRepository jpaProductLogRepository;
+    private final ProductLogMapperForJpa productLogMapperForJpa;
+    private final ProductLogMapperForServiceLayer productLogMapperForServiceLayer;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -114,6 +122,11 @@ public class IocConfig {
         );
     }
 
+    @Bean
+    public ProductLogRepository productLogRepository(){
+        return new JpaProductLogRepositoryAdapter(this.jpaProductLogRepository, this.productLogMapperForJpa);
+    }
+
 
     //---------------- Service Layer Beans : --------------------
 
@@ -139,7 +152,9 @@ public class IocConfig {
 
     @Bean
     public ProductService productService(){
-        return new ProductManager(this.productRepository());
+        return new ProductManager(
+                this.productRepository(), this.productLogService(), this.productLogMapperForServiceLayer
+        );
     }
 
     @Bean
@@ -167,5 +182,10 @@ public class IocConfig {
     @Bean
     public UserHimselfActivityService userHimselfActivityService(){
         return new UserHimselfActivityManager(this.userHimselfActivityRepository());
+    }
+
+    @Bean
+    public ProductLogService productLogService(){
+        return new ProductLogManager(this.productLogRepository());
     }
 }

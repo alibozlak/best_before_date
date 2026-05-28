@@ -28,4 +28,8 @@ public class AddProductRequestDto extends Dto {
     @Positive
     @Max(value = 100)
     private Short tax;
+
+    private Integer bbdTrackerId;
+    private Integer userId;
+    private Byte activityTypeId;
 }

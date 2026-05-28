@@ -3,8 +3,12 @@ package dev.bozlak.bbd.service.concretes.product;
 import dev.bozlak.bbd.dtos.product.requests.AddProductRequestDto;
 import dev.bozlak.bbd.dtos.product.responses.ProductIdNameCodeAndPriceResponseDto;
 import dev.bozlak.bbd.repository.baseabstracts.ProductRepository;
+import dev.bozlak.bbd.service.abstracts.ProductLogService;
 import dev.bozlak.bbd.service.abstracts.ProductService;
+import dev.bozlak.bbd.utilities.mappers.ProductLogMapperForServiceLayer;
+import dev.bozlak.bbd.utilities.models.productlog.AddProductLogModel;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,10 +16,17 @@ import java.util.List;
 public class ProductManager implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductLogService productLogService;
+    private final ProductLogMapperForServiceLayer productLogMapperForServiceLayer;
 
     @Override
+    @Transactional
     public void add(AddProductRequestDto addProductRequestDto) {
         this.productRepository.save(addProductRequestDto);
+
+        AddProductLogModel addProductLogModel
+                = this.productLogMapperForServiceLayer.toProductLogModelFromAddProductRequestDto(addProductRequestDto);
+        this.productLogService.add(addProductLogModel);
     }
 
     @Override
