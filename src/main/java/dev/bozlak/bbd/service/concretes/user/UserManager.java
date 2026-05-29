@@ -73,7 +73,7 @@ public class UserManager implements UserService {
     }
 
     @Override
-    public Boolean isUserBbdTracker(Integer userId) {
+    public IsBbdTrackerAndBbdTrackerResponseDto isUserBbdTracker(Integer userId) {
         return this.userRepository.isUserBbdTracker(userId);
     }
 

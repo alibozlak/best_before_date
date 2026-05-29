@@ -37,8 +37,10 @@ public class UserController {
     }
 
     @GetMapping("/is-user-a-bbd-tracker/{userId}")
-    public ResponseBody isUserABbdTracker(@PathVariable("userId") Integer userId){
-        return new ResponseBody(this.userService.isUserBbdTracker(userId));
+    public ResponseBodyWithObject<IsBbdTrackerAndBbdTrackerResponseDto> isUserABbdTracker(
+            @PathVariable("userId") Integer userId
+    ){
+        return new ResponseBodyWithObject<>(this.userService.isUserBbdTracker(userId));
     }
 
     @GetMapping("/get-user-id-and-code-list")

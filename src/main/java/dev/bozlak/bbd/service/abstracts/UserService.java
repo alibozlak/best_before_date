@@ -14,7 +14,7 @@ public interface UserService {
     UserIdStoreAndIsAdminModel getUserIdStoreAndIsAdminModel(Integer userId);
     HomePageStoreResponseDto getHomePageStoreResponseDto(Integer userId);
     void changePassword(ChangePasswordRequestDto changePasswordRequestDto);
-    Boolean isUserBbdTracker(Integer userId);
+    IsBbdTrackerAndBbdTrackerResponseDto isUserBbdTracker(Integer userId);
     List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList();
     void addStoreToUser(AddStoreToUserRequestDto addStoreToUserRequestDto);
 
