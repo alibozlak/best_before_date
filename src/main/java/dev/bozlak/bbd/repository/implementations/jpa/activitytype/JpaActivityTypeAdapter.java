@@ -27,4 +27,12 @@ public class JpaActivityTypeAdapter implements ActivityTypeRepository {
 
         return activityTypes;
     }
+
+    @Override
+    public ActivityType getActivityTypeByActivityTypeId(Byte activityTypeId) {
+        dev.bozlak.bbd.repository.implementations.jpa.entities.ActivityType activityTypeForJpa
+                = this.jpaActivityTypeRepository.findById(activityTypeId).get();
+
+        return this.activityTypeMapperForJpa.fromJpaActivityTypeEntityToCoreActivityTypeEntity(activityTypeForJpa);
+    }
 }

@@ -103,7 +103,10 @@ public class IocConfig {
 
     @Bean
     public ProductRepository productRepository(){
-        return new JpaProductAdapter(this.jpaProductRepository, this.productMapperForJpa);
+        return new JpaProductAdapter(
+                this.jpaProductRepository,
+                this.productMapperForJpa
+        );
     }
 
     @Bean
@@ -130,7 +133,14 @@ public class IocConfig {
 
     @Bean
     public ProductLogRepository productLogRepository(){
-        return new JpaProductLogRepositoryAdapter(this.jpaProductLogRepository, this.productLogMapperForJpa);
+        return new JpaProductLogRepositoryAdapter(
+                this.jpaProductLogRepository,
+                this.productLogMapperForJpa,
+                this.userRepository(),
+                this.userMapperForJpa,
+                this.activityTypeRepository(),
+                this.activityTypeMapperForJpa
+        );
     }
 
     @Bean

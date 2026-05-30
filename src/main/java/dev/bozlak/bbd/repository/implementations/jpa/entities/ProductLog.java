@@ -29,4 +29,10 @@ public class ProductLog {
     @JoinColumn(name = "activity_type_id", nullable = false)
     @ManyToOne
     private ActivityType activityType;
+
+    public ProductLog(BbdTracker bbdTracker, User user, ActivityType activityType) {
+        this.bbdTracker = bbdTracker;
+        this.user = user;
+        this.activityType = activityType;
+    }
 }

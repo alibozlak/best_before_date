@@ -12,4 +12,7 @@ public interface UserMapperForJpa {
 
     @Mapping(source = "store.id", target = "storeId")
     dev.bozlak.bbd.entities.User fromJpaUserToCoreUser(User user);
+
+    @Mapping(source = "store.id", target = "storeId")
+    dev.bozlak.bbd.entities.User fromJpaUserToCoreEntityUser(User user);
 }

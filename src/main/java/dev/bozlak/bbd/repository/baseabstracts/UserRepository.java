@@ -41,4 +41,6 @@ public interface UserRepository {
     );
 
     void removeUserFromStoreByBbdTracker(Integer userId);
+
+    User getUserByUserId(Integer userId);
 }

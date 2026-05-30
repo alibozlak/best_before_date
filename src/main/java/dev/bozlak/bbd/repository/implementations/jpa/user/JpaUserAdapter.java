@@ -103,4 +103,10 @@ public class JpaUserAdapter implements UserRepository {
     public void removeUserFromStoreByBbdTracker(Integer userId) {
         this.jpaUserRepository.updateStoreToUser(userId, ProjectConstants.Store.USER_DOESNT_HAVE_STORE_ID);
     }
+
+    @Override
+    public User getUserByUserId(Integer userId) {
+        dev.bozlak.bbd.repository.implementations.jpa.entities.User user = this.jpaUserRepository.findById(userId).get();
+        return this.userMapperForJpa.fromJpaUserToCoreEntityUser(user);
+    }
 }
