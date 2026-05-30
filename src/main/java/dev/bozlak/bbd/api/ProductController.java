@@ -20,6 +20,9 @@ public class ProductController {
 
     @PostMapping
     public ResponseBody addProduct(@Valid @RequestBody AddProductRequestDto addProductRequestDto){
+        Byte addProductActivityTypeId = 12;
+        addProductRequestDto.setActivityTypeId(addProductActivityTypeId);
+
         this.productService.add(addProductRequestDto);
         return new ResponseBody(true);
     }

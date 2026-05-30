@@ -7,4 +7,5 @@ import java.util.List;
 public interface ActivityTypeRepository {
 
     List<ActivityType> findAll();
+    ActivityType getActivityTypeByActivityTypeId(Byte activityTypeId);
 }

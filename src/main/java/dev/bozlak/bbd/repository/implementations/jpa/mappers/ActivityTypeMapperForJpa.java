@@ -9,4 +9,8 @@ public interface ActivityTypeMapperForJpa {
     ActivityType fromJpaActivityTypeEntityToCoreActivityTypeEntity(
             dev.bozlak.bbd.repository.implementations.jpa.entities.ActivityType activityTypeEntityForJpa
     );
+
+    dev.bozlak.bbd.repository.implementations.jpa.entities.ActivityType fromCoreActivityTypeToJpaActiviyType(
+            ActivityType activityTypeForCoreEntity
+    );
 }

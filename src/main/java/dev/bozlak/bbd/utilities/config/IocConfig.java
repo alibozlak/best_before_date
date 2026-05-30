@@ -5,6 +5,8 @@ import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTyp
 import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTypeRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepositoryAdapter;
+import dev.bozlak.bbd.repository.implementations.jpa.bbdtracker.JpaBbdTrackerRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.bbdtracker.JpaBbdTrackerRepositoryAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.homepage.JpaHomePageRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.homepage.JpaHomePageRepositoryAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.*;
@@ -72,6 +74,8 @@ public class IocConfig {
     private final ProductLogMapperForJpa productLogMapperForJpa;
     private final ProductLogMapperForServiceLayer productLogMapperForServiceLayer;
 
+    private final JpaBbdTrackerRepository jpaBbdTrackerRepository;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -82,7 +86,9 @@ public class IocConfig {
 
     @Bean
     public UserRepository userRepository(){
-        return new JpaUserAdapter(this.jpaUserRepository, this.userMapperForJpa);
+        return new JpaUserAdapter(
+                this.jpaUserRepository, this.userMapperForJpa, this.bbdTrackerRepository()
+        );
     }
 
     @Bean
@@ -97,7 +103,10 @@ public class IocConfig {
 
     @Bean
     public ProductRepository productRepository(){
-        return new JpaProductAdapter(this.jpaProductRepository, this.productMapperForJpa);
+        return new JpaProductAdapter(
+                this.jpaProductRepository,
+                this.productMapperForJpa
+        );
     }
 
     @Bean
@@ -124,7 +133,19 @@ public class IocConfig {
 
     @Bean
     public ProductLogRepository productLogRepository(){
-        return new JpaProductLogRepositoryAdapter(this.jpaProductLogRepository, this.productLogMapperForJpa);
+        return new JpaProductLogRepositoryAdapter(
+                this.jpaProductLogRepository,
+                this.productLogMapperForJpa,
+                this.userRepository(),
+                this.userMapperForJpa,
+                this.activityTypeRepository(),
+                this.activityTypeMapperForJpa
+        );
+    }
+
+    @Bean
+    public BbdTrackerRepository bbdTrackerRepository(){
+        return new JpaBbdTrackerRepositoryAdapter(this.jpaBbdTrackerRepository);
     }
 
 

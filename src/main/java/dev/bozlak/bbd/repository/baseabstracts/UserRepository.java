@@ -1,6 +1,7 @@
 package dev.bozlak.bbd.repository.baseabstracts;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.IsBbdTrackerAndBbdTrackerResponseDto;
 import dev.bozlak.bbd.dtos.user.RequestDtoForListCoworkers;
 import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.entities.User;
@@ -29,7 +30,7 @@ public interface UserRepository {
 
     void changeUserPassword(Integer userId, String newHashedPassword);
 
-    Boolean isUserBbdTracker(Integer userId);
+    IsBbdTrackerAndBbdTrackerResponseDto isUserBbdTracker(Integer userId);
 
     List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList();
 
@@ -40,4 +41,6 @@ public interface UserRepository {
     );
 
     void removeUserFromStoreByBbdTracker(Integer userId);
+
+    User getUserByUserId(Integer userId);
 }

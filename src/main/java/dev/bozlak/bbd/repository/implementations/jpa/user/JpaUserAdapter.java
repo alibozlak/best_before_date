@@ -1,9 +1,11 @@
 package dev.bozlak.bbd.repository.implementations.jpa.user;
 
 import dev.bozlak.bbd.dtos.store.HomePageStoreResponseDto;
+import dev.bozlak.bbd.dtos.user.IsBbdTrackerAndBbdTrackerResponseDto;
 import dev.bozlak.bbd.dtos.user.RequestDtoForListCoworkers;
 import dev.bozlak.bbd.dtos.user.UserIdAndCodeForAddUserByTrackerResponseDto;
 import dev.bozlak.bbd.entities.User;
+import dev.bozlak.bbd.repository.baseabstracts.BbdTrackerRepository;
 import dev.bozlak.bbd.repository.baseabstracts.UserRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.dtos.UserIdStoreAndIsAdminModel;
 import dev.bozlak.bbd.repository.implementations.jpa.mappers.UserMapperForJpa;
@@ -18,6 +20,7 @@ public class JpaUserAdapter implements UserRepository {
 
     private final JpaUserRepository jpaUserRepository;
     private final UserMapperForJpa userMapperForJpa;
+    private final BbdTrackerRepository bbdTrackerRepository;
 
     @Override
     public UserIdStoreAndIsAdminModel getUserIdStoreAndIsAdminModel(Integer userId) {
@@ -65,8 +68,14 @@ public class JpaUserAdapter implements UserRepository {
     }
 
     @Override
-    public Boolean isUserBbdTracker(Integer userId) {
-        return this.jpaUserRepository.findIsBbdTrackerById(userId);
+    public IsBbdTrackerAndBbdTrackerResponseDto isUserBbdTracker(Integer userId) {
+        Boolean isUserBbdTracker = this.jpaUserRepository.findIsBbdTrackerById(userId);
+        if (isUserBbdTracker){
+            Integer bbdTrackerId = this.bbdTrackerRepository.getBbdTrackerIdByUserId(userId);
+            return new IsBbdTrackerAndBbdTrackerResponseDto(isUserBbdTracker, bbdTrackerId);
+        }
+
+        return new IsBbdTrackerAndBbdTrackerResponseDto(false, 0);
     }
 
     @Override
@@ -93,5 +102,11 @@ public class JpaUserAdapter implements UserRepository {
     @Override
     public void removeUserFromStoreByBbdTracker(Integer userId) {
         this.jpaUserRepository.updateStoreToUser(userId, ProjectConstants.Store.USER_DOESNT_HAVE_STORE_ID);
+    }
+
+    @Override
+    public User getUserByUserId(Integer userId) {
+        dev.bozlak.bbd.repository.implementations.jpa.entities.User user = this.jpaUserRepository.findById(userId).get();
+        return this.userMapperForJpa.fromJpaUserToCoreEntityUser(user);
     }
 }
