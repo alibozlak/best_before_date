@@ -1,7 +1,9 @@
 package dev.bozlak.bbd.api;
 
+import dev.bozlak.bbd.dtos.store.CreateStoreRequestDto;
 import dev.bozlak.bbd.entities.Store;
 import dev.bozlak.bbd.service.abstracts.StoreService;
+import dev.bozlak.core.responses.ResponseBody;
 import dev.bozlak.core.responses.ResponseBodyWithObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -23,5 +25,11 @@ public class StoreController {
     @GetMapping("/get-all")
     public ResponseBodyWithObject<List<Store>> getStoreList(){
         return new ResponseBodyWithObject<>(this.storeService.getStoreList());
+    }
+
+    @PostMapping
+    public dev.bozlak.core.responses.ResponseBody createStore(@RequestBody CreateStoreRequestDto createStoreRequestDto){
+        this.storeService.createStore(createStoreRequestDto);
+        return new ResponseBody(true);
     }
 }

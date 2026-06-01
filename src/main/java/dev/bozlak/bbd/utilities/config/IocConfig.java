@@ -3,6 +3,8 @@ package dev.bozlak.bbd.utilities.config;
 import dev.bozlak.bbd.repository.baseabstracts.*;
 import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTypeAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.activitytype.JpaActivityTypeRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.adminstoreactivity.JpaAdminStoreActivityRepository;
+import dev.bozlak.bbd.repository.implementations.jpa.adminstoreactivity.JpaAdminStoreActivityRepositoryAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepository;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdrecord.JpaBbdRecordRepositoryAdapter;
 import dev.bozlak.bbd.repository.implementations.jpa.bbdtracker.JpaBbdTrackerRepository;
@@ -24,6 +26,7 @@ import dev.bozlak.bbd.repository.implementations.jpa.userhimselfactivity.JpaUser
 import dev.bozlak.bbd.repository.implementations.jpa.userhimselfactivity.JpaUserHimselfActivityRepository;
 import dev.bozlak.bbd.service.abstracts.*;
 import dev.bozlak.bbd.service.concretes.activitytype.ActivityTypeManager;
+import dev.bozlak.bbd.service.concretes.adminstoreactivity.AdminStoreActivityManager;
 import dev.bozlak.bbd.service.concretes.bbdrecord.BbdRecordManager;
 import dev.bozlak.bbd.service.concretes.homepage.HomePageServiceImpl;
 import dev.bozlak.bbd.service.concretes.product.ProductManager;
@@ -33,6 +36,7 @@ import dev.bozlak.bbd.service.concretes.user.UserManager;
 import dev.bozlak.bbd.service.concretes.useractivity.UserActivityManager;
 import dev.bozlak.bbd.service.concretes.userhimselfactivity.UserHimselfActivityManager;
 import dev.bozlak.bbd.utilities.mappers.ProductLogMapperForServiceLayer;
+import dev.bozlak.bbd.utilities.mappers.StoreMapper;
 import dev.bozlak.bbd.utilities.mappers.UserActivityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -75,6 +79,11 @@ public class IocConfig {
     private final ProductLogMapperForServiceLayer productLogMapperForServiceLayer;
 
     private final JpaBbdTrackerRepository jpaBbdTrackerRepository;
+
+    private final JpaAdminStoreActivityRepository jpaAdminStoreActivityRepository;
+    private final AdminStoreActivityMapperForJpa adminStoreActivityMapperForJpa;
+
+    private final StoreMapper storeMapper;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -148,6 +157,13 @@ public class IocConfig {
         return new JpaBbdTrackerRepositoryAdapter(this.jpaBbdTrackerRepository);
     }
 
+    @Bean
+    public AdminStoreActivityRepository adminStoreActivityRepository(){
+        return new JpaAdminStoreActivityRepositoryAdapter(
+                this.jpaAdminStoreActivityRepository, this.adminStoreActivityMapperForJpa
+        );
+    }
+
 
     //---------------- Service Layer Beans : --------------------
 
@@ -168,7 +184,11 @@ public class IocConfig {
 
     @Bean
     public StoreService storeService(){
-        return new StoreManager(this.storeRepository());
+        return new StoreManager(
+                this.storeRepository(),
+                this.storeMapper,
+                this.adminStoreActivityService()
+        );
     }
 
     @Bean
@@ -208,5 +228,10 @@ public class IocConfig {
     @Bean
     public ProductLogService productLogService(){
         return new ProductLogManager(this.productLogRepository());
+    }
+
+    @Bean
+    public AdminStoreActivityService adminStoreActivityService(){
+        return new AdminStoreActivityManager(this.adminStoreActivityRepository());
     }
 }
