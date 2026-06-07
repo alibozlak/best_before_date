@@ -24,7 +24,7 @@ class ProductLogMapperForServiceLayerTest {
 
         AddProductRequestDto dto = new AddProductRequestDto();
 
-        dto.setProductName("Ülker Çikolatalı Gofret");
+        dto.setProductName("Chocolate Wafer");
         dto.setProductCode("1234567");
         dto.setPrice(new BigDecimal("10.50"));
 
@@ -34,11 +34,11 @@ class ProductLogMapperForServiceLayerTest {
 
         AddProductLogModel model = mapper.toProductLogModelFromAddProductRequestDto(dto);
 
-        assertNotNull(model, "Dönen AddProductLogModel null olmamalıdır.");
+        assertNotNull(model, "The returned AddProductLogModel should not be null!");
 
-        assertEquals(99, model.getBbdTrackerId(), "BbdTracker ID eşleşmiyor.");
-        assertEquals(5, model.getUserId(), "User ID eşleşmiyor.");
-        assertEquals((byte) 1, model.getActivityTypeId(), "ActivityType ID eşleşmiyor.");
+        assertEquals(99, model.getBbdTrackerId(), "BbdTracker ID does not match!");
+        assertEquals(5, model.getUserId(), "User ID does not match!");
+        assertEquals((byte) 1, model.getActivityTypeId(), "ActivityType ID does not match!");
     }
 
     @Test
@@ -46,6 +46,6 @@ class ProductLogMapperForServiceLayerTest {
 
         AddProductLogModel model = mapper.toProductLogModelFromAddProductRequestDto(null);
 
-        assertNull(model, "Gelen DTO null ise, sonuç da null dönmelidir.");
+        assertNull(model, "If the input DTO is null, the result should be null.");
     }
 }
