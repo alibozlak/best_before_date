@@ -2,7 +2,6 @@ package dev.bozlak.bbd.service.concretes.store;
 
 import dev.bozlak.bbd.dtos.store.CreateStoreRequestDto;
 import dev.bozlak.bbd.entities.Store;
-import dev.bozlak.bbd.repository.baseabstracts.AdminStoreActivityRepository;
 import dev.bozlak.bbd.repository.baseabstracts.StoreRepository;
 import dev.bozlak.bbd.service.abstracts.AdminStoreActivityService;
 import dev.bozlak.bbd.service.abstracts.StoreService;
@@ -34,8 +33,8 @@ public class StoreManager implements StoreService {
     @Override
     @Transactional
     public void createStore(CreateStoreRequestDto createStoreRequestDto) {
-        CreateStoreModel createStoreModel
-                = this.storeMapper.toCreateStoreModelFromCreateStoreRequestDto(createStoreRequestDto);
+        CreateStoreModel createStoreModel = this.storeMapper
+                .toCreateStoreModelFromCreateStoreRequestDto(createStoreRequestDto);
         Integer storeId = this.storeRepository.createStore(createStoreModel);
 
         AddAdminStoreActivityModel addAdminStoreActivityModel = new AddAdminStoreActivityModel();

@@ -9,6 +9,8 @@ import dev.bozlak.core.responses.ResponseBody;
 import dev.bozlak.core.responses.ResponseBodyWithObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,58 +21,82 @@ public class BbdRecordController {
     private final BbdRecordService bbdRecordService;
 
     @PostMapping
-    public ResponseBody add(@RequestBody @Valid AddBbdRecordRequestDto addBbdRecordRequestDto){
+    public ResponseEntity<ResponseBody> add(@RequestBody @Valid AddBbdRecordRequestDto addBbdRecordRequestDto){
         this.bbdRecordService.add(addBbdRecordRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.CREATED
+        );
     }
 
     @PostMapping("/get-update-bbd-record-page-model")
-    public ResponseBodyWithObject<EditBbdRecordPageResponseDto> getEditBbdRecordPageResponse(
+    public ResponseEntity<ResponseBodyWithObject<EditBbdRecordPageResponseDto>> getEditBbdRecordPageResponse(
             @RequestBody Long bbdRecordId
     ){
-        return new ResponseBodyWithObject<>(this.bbdRecordService.getEditBbdRecordPageResponse(bbdRecordId));
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.bbdRecordService.getEditBbdRecordPageResponse(bbdRecordId)),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/sale-product")
-    public ResponseBody saleProduct(@RequestBody SaleProductRequestDto saleProductRequestDto){
+    public ResponseEntity<ResponseBody> saleProduct(@RequestBody SaleProductRequestDto saleProductRequestDto){
         this.bbdRecordService.saleProduct(saleProductRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/get-update-bbd-record-page-dto")
-    public ResponseBodyWithObject<UpdateBbdRecordPageResponseDto> getUpdateBbdRecordPageDto(
+    public ResponseEntity<ResponseBodyWithObject<UpdateBbdRecordPageResponseDto>> getUpdateBbdRecordPageDto(
             @RequestBody Long bbdRecordId
     ){
-        return new ResponseBodyWithObject<>(this.bbdRecordService.getUpdateBbdRecordPageDto(bbdRecordId));
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.bbdRecordService.getUpdateBbdRecordPageDto(bbdRecordId)),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping
-    public ResponseBodyWithObject<Long> updateBbdRecord(
+    public ResponseEntity<ResponseBodyWithObject<Long>> updateBbdRecord(
             @RequestBody UpdateBbdRecordRequestDto updateBbdRecordRequestDto
     ){
-        return new ResponseBodyWithObject<>(this.bbdRecordService.updateBbdRecord(updateBbdRecordRequestDto));
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.bbdRecordService.updateBbdRecord(updateBbdRecordRequestDto)),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping("/soft-delete")
-    public ResponseBody deleteBbdRecordById(
+    public ResponseEntity<ResponseBody> deleteBbdRecordById(
             @RequestBody DeleteBbdRecordRequestDto deleteBbdRecordRequestDto
     ){
         this.bbdRecordService.deleteBbdRecordById(deleteBbdRecordRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/get-bbd-past-record-dto/{bbdRecordId}")
-    public ResponseBodyWithObject<BbdPastComponentReponseDto> getBbdPastComponentResponseDto(
+    public ResponseEntity<ResponseBodyWithObject<BbdPastComponentReponseDto>> getBbdPastComponentResponseDto(
             @PathVariable("bbdRecordId") Long bbdRecordId
     ){
-        return new ResponseBodyWithObject<>(this.bbdRecordService.getBbdPastComponentResponseDto(bbdRecordId));
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.bbdRecordService.getBbdPastComponentResponseDto(bbdRecordId)),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping("/update-for-bbd-past")
-    public ResponseBody doOperationBbdPastComponentRequestDto(
+    public ResponseEntity<ResponseBody> doOperationBbdPastComponentRequestDto(
             @RequestBody BbdPastComponentRequestDto bbdPastComponentRequestDto
     ){
         this.bbdRecordService.doOperationBbdPastComponentRequestDto(bbdPastComponentRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.OK
+        );
     }
 }
