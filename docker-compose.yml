@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: bbd_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bbd_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: bbd_backend
+    ports:
+      - "8080:8080"
+    environment:
+      - LOCALHOST_DB_URL=jdbc:postgresql://db:5432/bbd_db
+      - LOCALHOST_USERNAME=admin
+      - LOCALHOST_PASSWORD=admin
+      # Fake Secret Key :
+      - JWT_SECRET_KEY=404E635266556A586E3272357538782F413F4428472B4B62506KM5667566B5970
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
