@@ -3,8 +3,10 @@ package dev.bozlak.bbd.api;
 import dev.bozlak.bbd.dtos.auth.AuthResponseDto;
 import dev.bozlak.bbd.dtos.user.LoginRequestDto;
 import dev.bozlak.bbd.service.abstracts.AuthService;
+import dev.bozlak.core.responses.ResponseBodyWithObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,10 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@Valid @RequestBody LoginRequestDto loginRequestDto){
-        return ResponseEntity.ok(this.authService.login(loginRequestDto));
+    public ResponseEntity<ResponseBodyWithObject<AuthResponseDto>> login(@Valid @RequestBody LoginRequestDto loginRequestDto){
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.authService.login(loginRequestDto)),
+                HttpStatus.OK
+        );
     }
 }

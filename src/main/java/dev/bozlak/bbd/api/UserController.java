@@ -6,7 +6,8 @@ import dev.bozlak.core.responses.ResponseBody;
 import dev.bozlak.core.responses.ResponseBodyWithObject;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,51 +20,74 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseBody addUser(@RequestBody @Valid AddUserRequestDto addUserRequestDto){
+    public ResponseEntity<ResponseBody> addUser(@RequestBody @Valid AddUserRequestDto addUserRequestDto){
         this.userService.add(addUserRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.CREATED
+        );
     }
 
     @PostMapping("/get-store-id-by-user-id")
-    public ResponseBodyWithObject<Integer> getStoreIdByUserId(@RequestBody Integer userId){
-        return new ResponseBodyWithObject<>(this.userService.getStoreIdByUserId(userId));
+    public ResponseEntity<ResponseBodyWithObject<Integer>> getStoreIdByUserId(@RequestBody Integer userId){
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.userService.getStoreIdByUserId(userId)),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/change-password")
-    public ResponseBody changePassword(@RequestBody ChangePasswordRequestDto changePasswordRequestDto){
+    public ResponseEntity<ResponseBody> changePassword(@RequestBody ChangePasswordRequestDto changePasswordRequestDto){
         this.userService.changePassword(changePasswordRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/is-user-a-bbd-tracker/{userId}")
-    public ResponseBodyWithObject<IsBbdTrackerAndBbdTrackerResponseDto> isUserABbdTracker(
+    public ResponseEntity<ResponseBodyWithObject<IsBbdTrackerAndBbdTrackerResponseDto>> isUserABbdTracker(
             @PathVariable("userId") Integer userId
     ){
-        return new ResponseBodyWithObject<>(this.userService.isUserBbdTracker(userId));
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.userService.isUserBbdTracker(userId)),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/get-user-id-and-code-list")
-    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(){
-        return this.userService.getUserIdAndCodeForAddUserByTrackerResponseDtoList();
+    public ResponseEntity<ResponseBodyWithObject<List<UserIdAndCodeForAddUserByTrackerResponseDto>>> getUserIdAndCodeForAddUserByTrackerResponseDtoList(){
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.userService.getUserIdAndCodeForAddUserByTrackerResponseDtoList()),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping("/add-store-to-user-by-bbd-tracker")
-    public ResponseBody addStoreToUserByBbdTracker(@RequestBody AddStoreToUserRequestDto addStoreToUserRequestDto){
+    public ResponseEntity<ResponseBody> addStoreToUserByBbdTracker(@RequestBody AddStoreToUserRequestDto addStoreToUserRequestDto){
         this.userService.addStoreToUser(addStoreToUserRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.OK
+        );
     }
 
     @PostMapping("/get-user-id-and-code-list-without-himself")
-    public List<UserIdAndCodeForAddUserByTrackerResponseDto> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
+    public ResponseEntity<ResponseBodyWithObject<List<UserIdAndCodeForAddUserByTrackerResponseDto>>> getUserIdAndCodeForAddUserByTrackerResponseDtoList(
             @RequestBody RequestDtoForListCoworkers requestDtoForListCoworkers
     ){
-        return this.userService.getUserIdAndCodeForAddUserByTrackerResponseDtoList(requestDtoForListCoworkers);
+        return new ResponseEntity<>(
+                new ResponseBodyWithObject<>(this.userService.getUserIdAndCodeForAddUserByTrackerResponseDtoList(requestDtoForListCoworkers)),
+                HttpStatus.OK
+        );
     }
 
     @PutMapping("/remove-user-from-store-by-bbd-tracker")
-    public ResponseBody removeUserFromStoreByBbdTracker(@RequestBody AddStoreToUserRequestDto addStoreToUserRequestDto){
+    public ResponseEntity<ResponseBody> removeUserFromStoreByBbdTracker(@RequestBody AddStoreToUserRequestDto addStoreToUserRequestDto){
         this.userService.removeUserFromStoreByBbdTracker(addStoreToUserRequestDto);
-        return new ResponseBody(true);
+        return new ResponseEntity<>(
+                new ResponseBody(true),
+                HttpStatus.OK
+        );
     }
 }
