@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.bozlak</groupId>
 	<artifactId>bbd</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>bbd</name>
 	<description>Best Before Date project for BiM</description>
 	<url/>
