@@ -25,3 +25,53 @@ INSERT INTO public.users (id,is_active,is_admin,is_bbd_tracker,"password",user_n
 ON CONFLICT (id) DO NOTHING;
 
 ALTER SEQUENCE users_id_seq RESTART WITH 100;
+
+-- Insert activity types once :
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (1, 'CREATE_BBD_RECORD')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (2, 'REMOVAL_TYPE_GIVE')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (3, 'UPDATE_BBD_RECORD')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (4, 'REMOVAL_TYPE_SALE')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (5, 'DELETE_BBD_RECORD')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (6, 'CHECK_BBD_PAST_PRODUCT_DONT_EXIST')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (7, 'CHECK_BBD_PAST_PRODUCT_REMOVED')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (8, 'USER_CHANGE_PASSWORD')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (9, 'ADD_USER_BY_BBD_TRACKER')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (10, 'ADD_STORE_TO_USER_BY_BBD_TRACKER')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (11, 'REMOVE_USER_FROM_STORE_BY_BBD_TRACKER')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (12, 'ADD_PRODUCT_BY_BBD_TRACKER')
+ON CONFLICT (id) DO NOTHING;
+
+INSERT INTO public.activity_types (id, activity_type) VALUES (13, 'CREATE_STORE_BY_ADMIN')
+ON CONFLICT (id) DO NOTHING;
+
+ALTER SEQUENCE activity_types_id_seq RESTART WITH 100;
+
+-- Insert bbd trackers once :
+
+INSERT INTO public.bbd_trackers (id, note_for_tracker, user_id) VALUES (1, null, 8)
+ON CONFLICT (id) DO NOTHING;
+
+ALTER SEQUENCE bbd_trackers_id_seq RESTART WITH 100;
