@@ -36,8 +36,8 @@ public class OpenApiConfig {
                 .description("A comprehensive backend system designed for retail stores to manage product expiration dates, " +
                         "store tracking, waste operations, and staff activity logging.")
                 .contact(new Contact()
-                        .name("Ali İhsan Bozlak")
-                        .url("bozlak20aliihsan@gmail.com"));
+                        .name("Ali Bozlak")
+                        .url("https://github.com/alibozlak"));
 
         // 3. Environment Servers Configuration
         Server devServer = new Server()
