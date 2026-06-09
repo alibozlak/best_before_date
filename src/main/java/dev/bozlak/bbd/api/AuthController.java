@@ -4,6 +4,8 @@ import dev.bozlak.bbd.dtos.auth.AuthResponseDto;
 import dev.bozlak.bbd.dtos.user.LoginRequestDto;
 import dev.bozlak.bbd.service.abstracts.AuthService;
 import dev.bozlak.core.responses.ResponseBodyWithObject;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication Management", description = "Endpoints for user login and token generation.")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/login")
+    @Operation(
+            summary = "User Login",
+            description = "Authenticates a user with username (actually userCode) and password, " +
+                    "returning a JWT and user authorities."
+    )
     public ResponseEntity<ResponseBodyWithObject<AuthResponseDto>> login(@Valid @RequestBody LoginRequestDto loginRequestDto){
         return new ResponseEntity<>(
                 new ResponseBodyWithObject<>(this.authService.login(loginRequestDto)),
