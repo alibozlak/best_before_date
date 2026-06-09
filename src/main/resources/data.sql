@@ -71,7 +71,7 @@ ALTER SEQUENCE activity_types_id_seq RESTART WITH 100;
 
 -- Insert bbd trackers once :
 
-INSERT INTO public.bbd_trackers (id, note_for_tracker, user_id) VALUES (1, null, 8)
+INSERT INTO public.bbd_trackers (id, note_for_tracker, user_id) VALUES (1, null, 2)
 ON CONFLICT (id) DO NOTHING;
 
 ALTER SEQUENCE bbd_trackers_id_seq RESTART WITH 100;
