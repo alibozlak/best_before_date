@@ -27,7 +27,11 @@ public class AuthController {
     @Operation(
             summary = "User Login",
             description = "Authenticates a user with username (actually userCode) and password, " +
-                    "returning a JWT and user authorities."
+                    "returning a JWT and user authorities.\n" +
+                    "Initial First Fake users : \n" +
+                    "For Admin : {userName : '1000', password : 'admin'}\n" +
+                    "For BbdTracker : {userName : '1001', password : 'bbdTracker'}\n" +
+                    "For Other user : {userName : '1002', password : 'user'}"
     )
     public ResponseEntity<ResponseBodyWithObject<AuthResponseDto>> login(@Valid @RequestBody LoginRequestDto loginRequestDto){
         return new ResponseEntity<>(
